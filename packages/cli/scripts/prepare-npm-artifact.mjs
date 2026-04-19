@@ -37,7 +37,7 @@ const slim = {
   },
   files: ["dist/bundle.cjs", "bin/wittgenstein.mjs", "README.md"],
   engines: {
-    node: ">=20.11.0",
+    node: ">=20.19.0",
   },
   keywords: ["wittgenstein", "cli", "llm", "codec", "minimax"],
 };
