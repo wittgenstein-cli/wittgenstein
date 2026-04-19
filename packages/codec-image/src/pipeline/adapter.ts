@@ -11,7 +11,6 @@ export { ImageLatentCodesSchema };
 
 /** v1 stub: tokens[0]=1, tokens[1]=byte length, tokens[2..]=UTF-8 bytes of caption. */
 export const STUB_LATENT_PROTOCOL_V1 = 1;
-const MAX_CAPTION_BYTES = 400;
 
 export async function adaptSceneToLatents(
   parsed: ImageSceneSpec,

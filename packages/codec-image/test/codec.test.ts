@@ -101,7 +101,7 @@ describe("@wittgenstein/codec-image", () => {
 });
 
 describe("image pipeline (neural decode)", () => {
-  it("fails decode until a frozen decoder is integrated", async () => {
+  it("renders a PNG via the current placeholder decoder bridge", async () => {
     const parsed = imageCodec.parse(
       JSON.stringify({
         intent: "test",
@@ -114,19 +114,24 @@ describe("image pipeline (neural decode)", () => {
       return;
     }
 
-    await expect(
-      renderImagePipeline(parsed.value, {
-        runId: "test-run",
-        runDir: ".",
-        seed: null,
-        outPath: "out.png",
-        logger: {
-          debug: () => {},
-          info: () => {},
-          warn: () => {},
-          error: () => {},
-        },
-      }),
-    ).rejects.toMatchObject({ code: "NOT_IMPLEMENTED" });
+    const runDir = await mkdtemp(resolve(tmpdir(), "wittgenstein-codec-image-pipeline-"));
+    const outPath = resolve(runDir, "out.png");
+    const result = await renderImagePipeline(parsed.value, {
+      runId: "test-run",
+      runDir,
+      seed: null,
+      outPath,
+      logger: {
+        debug: () => {},
+        info: () => {},
+        warn: () => {},
+        error: () => {},
+      },
+    });
+
+    expect(result.mimeType).toBe("image/png");
+    expect(result.bytes).toBeGreaterThan(0);
+    const bytes = await readFile(outPath);
+    expect(Array.from(bytes.subarray(0, 8))).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
   });
 });
