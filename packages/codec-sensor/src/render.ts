@@ -218,9 +218,26 @@ async function renderLoupeDashboard(
   htmlPath: string,
   spec: SensorSignalSpec,
 ): Promise<boolean> {
-  const loupePath = `${process.cwd()}/loupe.py`;
+  // Search for loupe.py: repo root → package dir → cwd → PATH
+  const { resolve: resolvePath, dirname: dirPath } = await import("node:path");
+  const { fileURLToPath } = await import("node:url");
+  const __dir = dirPath(fileURLToPath(import.meta.url));
+  const candidates = [
+    resolvePath(__dir, "../../../../loupe.py"),       // repo root
+    resolvePath(__dir, "../loupe.py"),                // package root
+    resolvePath(process.cwd(), "loupe.py"),           // cwd
+    resolvePath(process.cwd(), "polyglot-mini/loupe.py"), // sub-project
+  ];
+  let loupePath: string | null = null;
+  for (const c of candidates) {
+    try { await import("node:fs/promises").then(m => m.access(c)); loupePath = c; break; } catch { /* skip */ }
+  }
+  if (!loupePath) {
+    // Try `loupe` on PATH
+    try { await spawnChecked("python3", ["-m", "loupe_cli", csvPath, "-o", htmlPath]); return true; } catch { /* continue to fallback */ }
+  }
   try {
-    await spawnChecked("python3", [loupePath, csvPath, "-o", htmlPath]);
+    await spawnChecked("python3", [loupePath ?? "loupe.py", csvPath, "-o", htmlPath]);
     return true;
   } catch {
     const fallbackHtml = `<!doctype html>

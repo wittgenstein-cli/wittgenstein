@@ -1,4 +1,4 @@
-"""Sensor codec — procedural signal spec → numpy array → JSON + PNG chart.
+"""Sensor codec — procedural signal spec → numpy array → JSON + CSV + PNG + loupe HTML.
 
 LLM emits a compact JSON spec describing a composition of signal primitives.
 Middleware expands it deterministically.
@@ -13,7 +13,30 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+import subprocess
+import sys
 from .llm import chat, extract_json_block
+
+
+def _run_loupe(csv_path: str, html_path: str) -> bool:
+    """Run loupe.py CSV → HTML. Returns True on success."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    candidates = [
+        os.path.join(here, "..", "loupe.py"),
+        os.path.join(here, "../..", "loupe.py"),
+        os.path.join(os.getcwd(), "loupe.py"),
+    ]
+    loupe = next((p for p in candidates if os.path.exists(p)), None)
+    if loupe is None:
+        return False
+    try:
+        subprocess.run(
+            [sys.executable, loupe, csv_path, "-o", html_path],
+            check=True, capture_output=True, timeout=15,
+        )
+        return os.path.exists(html_path)
+    except Exception:
+        return False
 
 
 SENSOR_SYSTEM = """You are a signal composer. Emit ONE fenced ```json block describing a sensor time series as a composition of primitives. No prose.
@@ -157,7 +180,9 @@ def generate_sensor(
 
     base, _ = os.path.splitext(out_path)
     json_path = base + ".json"
+    csv_path = base + ".csv"
     png_path = base + ".png"
+    html_path = base + ".html"
     npy_path = base + ".npy"
 
     np.save(npy_path, y)
@@ -166,6 +191,13 @@ def generate_sensor(
                    "sample_rate_hz": spec["sample_rate_hz"],
                    "duration_s": spec["duration_s"]}, f, indent=2)
 
+    # CSV for loupe
+    with open(csv_path, "w") as f:
+        f.write("timeSec,value\n")
+        for i, v in enumerate(y):
+            f.write(f"{t[i]:.4f},{float(v):.6f}\n")
+
+    # PNG chart (matplotlib)
     fig, ax = plt.subplots(figsize=(10, 3), dpi=140)
     ax.plot(t, y, linewidth=0.8)
     ax.set_xlabel("t (s)"); ax.set_ylabel(spec.get("unit", ""))
@@ -175,11 +207,17 @@ def generate_sensor(
     fig.savefig(png_path)
     plt.close(fig)
 
+    # Loupe HTML dashboard
+    loupe_ok = _run_loupe(csv_path, html_path)
+
     return {
         "ok": True,
-        "codec": "sensor:procedural",
-        "artifact_path": json_path,
+        "codec": "sensor:procedural+loupe" if loupe_ok else "sensor:procedural",
+        "artifact_path": html_path if loupe_ok else json_path,
+        "json_path": json_path,
+        "csv_path": csv_path,
         "chart_path": png_path,
+        "loupe_html": html_path if loupe_ok else None,
         "samples_path": npy_path,
         "n_samples": int(y.size),
         "llm_tokens": {"input": llm_in, "output": llm_out},

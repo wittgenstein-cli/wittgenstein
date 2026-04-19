@@ -31,6 +31,9 @@ def main() -> int:
     p_tts.add_argument("--lang", default="en")
     p_tts.add_argument("--rate", type=int, default=180)
     p_tts.add_argument("--raw", action="store_true", help="Skip LLM script rewrite")
+    p_tts.add_argument("--ambient", default="auto",
+                       help="Ambient layer: auto|none|rain|wind|forest|city|electronic")
+    p_tts.add_argument("--ambient-vol", type=float, default=None)
 
     args = ap.parse_args()
 
@@ -53,7 +56,9 @@ def main() -> int:
     elif args.cmd == "tts":
         from .tts import generate_speech
         result = generate_speech(args.prompt, args.out, voice=args.voice, lang=args.lang,
-                                 rate_wpm=args.rate, use_llm_script=not args.raw)
+                                 rate_wpm=args.rate, use_llm_script=not args.raw,
+                                 ambient=args.ambient,
+                                 ambient_vol=args.ambient_vol)
     else:
         ap.error(f"unknown cmd {args.cmd}")
 

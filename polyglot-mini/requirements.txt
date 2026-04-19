@@ -1,0 +1,14 @@
+# Wittgenstein polyglot-mini — Python runtime dependencies
+# All packages are available on PyPI.
+# Core numeric/image stack (usually pre-installed in ML environments)
+numpy>=1.24
+scipy>=1.11
+Pillow>=10.0
+matplotlib>=3.7
+
+# Optional — only needed for GPU-accelerated or extended audio paths
+# torch>=2.1               # not required by default
+# torchaudio>=2.1          # not required by default
+# soundfile>=0.12          # alternative WAV I/O (stdlib wave used by default)
+# librosa>=0.10            # audio analysis (not used yet)
+# edge-tts>=6.1            # cross-platform TTS fallback (macOS say is default)
