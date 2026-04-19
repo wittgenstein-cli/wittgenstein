@@ -2,7 +2,12 @@
 
 Wittgenstein is a harness-first multimodal system: the LLM plans, the runtime executes, and codecs turn structured IR into real artifacts with a traceable manifest spine.
 
-> Thesis: prompts are not the contract. The contract should live in schemas, codec boundaries, renderer logic, and artifact traces.
+> **Thesis:** prompts are not the contract. The contract lives in schemas, codec boundaries, renderer logic, and artifact traces.
+
+| Resource | |
+| --- | --- |
+| **Upstream** | [`github.com/Moapacha/wittgenstein`](https://github.com/Moapacha/wittgenstein) |
+| **Landing** | `pnpm dev:site` → [`apps/site`](apps/site/README.md) |
 
 ## At A Glance
 
@@ -96,9 +101,9 @@ wittgenstein doctor
 
 The repo now includes a lightweight benchmark harness that reports:
 
-- `Price`
-- `Latency`
-- `Quality`
+- **Cost** (API spend where applicable)
+- **Latency**
+- **Quality** (modality-specific smoke metrics)
 
 The current harness is intentionally a **smoke benchmark** for quick iteration. The longer-term standard-metric plan is documented separately:
 

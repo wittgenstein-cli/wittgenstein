@@ -1,0 +1,412 @@
+{
+  "signal": "temperature",
+  "sampleRateHz": 4,
+  "durationSec": 24,
+  "unit": "C",
+  "algorithm": "deterministic-operators",
+  "operators": [
+    {
+      "type": "drift",
+      "slopePerSec": 0.012
+    },
+    {
+      "type": "noise",
+      "color": "white",
+      "amplitude": 0.03
+    },
+    {
+      "type": "step",
+      "atSec": 8,
+      "amplitude": 0.9
+    }
+  ],
+  "notes": [
+    "sunrise greenhouse"
+  ],
+  "samples": [
+    {
+      "timeSec": 0,
+      "value": 0.01039
+    },
+    {
+      "timeSec": 0.25,
+      "value": 0.00446
+    },
+    {
+      "timeSec": 0.5,
+      "value": 0.027665
+    },
+    {
+      "timeSec": 0.75,
+      "value": 0.008312
+    },
+    {
+      "timeSec": 1,
+      "value": 0.00971
+    },
+    {
+      "timeSec": 1.25,
+      "value": 0.026901
+    },
+    {
+      "timeSec": 1.5,
+      "value": 0.020586
+    },
+    {
+      "timeSec": 1.75,
+      "value": 0.012089
+    },
+    {
+      "timeSec": 2,
+      "value": 0.005079
+    },
+    {
+      "timeSec": 2.25,
+      "value": -0.000034
+    },
+    {
+      "timeSec": 2.5,
+      "value": 0.043885
+    },
+    {
+      "timeSec": 2.75,
+      "value": 0.062237
+    },
+    {
+      "timeSec": 3,
+      "value": 0.012445
+    },
+    {
+      "timeSec": 3.25,
+      "value": 0.052417
+    },
+    {
+      "timeSec": 3.5,
+      "value": 0.041919
+    },
+    {
+      "timeSec": 3.75,
+      "value": 0.042434
+    },
+    {
+      "timeSec": 4,
+      "value": 0.057392
+    },
+    {
+      "timeSec": 4.25,
+      "value": 0.062485
+    },
+    {
+      "timeSec": 4.5,
+      "value": 0.081037
+    },
+    {
+      "timeSec": 4.75,
+      "value": 0.051722
+    },
+    {
+      "timeSec": 5,
+      "value": 0.035554
+    },
+    {
+      "timeSec": 5.25,
+      "value": 0.081965
+    },
+    {
+      "timeSec": 5.5,
+      "value": 0.043583
+    },
+    {
+      "timeSec": 5.75,
+      "value": 0.096336
+    },
+    {
+      "timeSec": 6,
+      "value": 0.085869
+    },
+    {
+      "timeSec": 6.25,
+      "value": 0.083871
+    },
+    {
+      "timeSec": 6.5,
+      "value": 0.101111
+    },
+    {
+      "timeSec": 6.75,
+      "value": 0.053792
+    },
+    {
+      "timeSec": 7,
+      "value": 0.063477
+    },
+    {
+      "timeSec": 7.25,
+      "value": 0.093225
+    },
+    {
+      "timeSec": 7.5,
+      "value": 0.112211
+    },
+    {
+      "timeSec": 7.75,
+      "value": 0.073442
+    },
+    {
+      "timeSec": 8,
+      "value": 0.983683
+    },
+    {
+      "timeSec": 8.25,
+      "value": 0.984103
+    },
+    {
+      "timeSec": 8.5,
+      "value": 1.024058
+    },
+    {
+      "timeSec": 8.75,
+      "value": 1.010403
+    },
+    {
+      "timeSec": 9,
+      "value": 0.99102
+    },
+    {
+      "timeSec": 9.25,
+      "value": 1.016049
+    },
+    {
+      "timeSec": 9.5,
+      "value": 1.020045
+    },
+    {
+      "timeSec": 9.75,
+      "value": 1.034184
+    },
+    {
+      "timeSec": 10,
+      "value": 1.04487
+    },
+    {
+      "timeSec": 10.25,
+      "value": 1.038477
+    },
+    {
+      "timeSec": 10.5,
+      "value": 1.026714
+    },
+    {
+      "timeSec": 10.75,
+      "value": 1.027969
+    },
+    {
+      "timeSec": 11,
+      "value": 1.022244
+    },
+    {
+      "timeSec": 11.25,
+      "value": 1.055665
+    },
+    {
+      "timeSec": 11.5,
+      "value": 1.060296
+    },
+    {
+      "timeSec": 11.75,
+      "value": 1.050879
+    },
+    {
+      "timeSec": 12,
+      "value": 1.037341
+    },
+    {
+      "timeSec": 12.25,
+      "value": 1.065327
+    },
+    {
+      "timeSec": 12.5,
+      "value": 1.021709
+    },
+    {
+      "timeSec": 12.75,
+      "value": 1.072972
+    },
+    {
+      "timeSec": 13,
+      "value": 1.063169
+    },
+    {
+      "timeSec": 13.25,
+      "value": 1.073002
+    },
+    {
+      "timeSec": 13.5,
+      "value": 1.077508
+    },
+    {
+      "timeSec": 13.75,
+      "value": 1.042727
+    },
+    {
+      "timeSec": 14,
+      "value": 1.079033
+    },
+    {
+      "timeSec": 14.25,
+      "value": 1.091382
+    },
+    {
+      "timeSec": 14.5,
+      "value": 1.086993
+    },
+    {
+      "timeSec": 14.75,
+      "value": 1.082003
+    },
+    {
+      "timeSec": 15,
+      "value": 1.097432
+    },
+    {
+      "timeSec": 15.25,
+      "value": 1.108488
+    },
+    {
+      "timeSec": 15.5,
+      "value": 1.070067
+    },
+    {
+      "timeSec": 15.75,
+      "value": 1.084966
+    },
+    {
+      "timeSec": 16,
+      "value": 1.110161
+    },
+    {
+      "timeSec": 16.25,
+      "value": 1.070179
+    },
+    {
+      "timeSec": 16.5,
+      "value": 1.125401
+    },
+    {
+      "timeSec": 16.75,
+      "value": 1.09347
+    },
+    {
+      "timeSec": 17,
+      "value": 1.097155
+    },
+    {
+      "timeSec": 17.25,
+      "value": 1.082014
+    },
+    {
+      "timeSec": 17.5,
+      "value": 1.122901
+    },
+    {
+      "timeSec": 17.75,
+      "value": 1.098851
+    },
+    {
+      "timeSec": 18,
+      "value": 1.130198
+    },
+    {
+      "timeSec": 18.25,
+      "value": 1.12731
+    },
+    {
+      "timeSec": 18.5,
+      "value": 1.116147
+    },
+    {
+      "timeSec": 18.75,
+      "value": 1.126312
+    },
+    {
+      "timeSec": 19,
+      "value": 1.130434
+    },
+    {
+      "timeSec": 19.25,
+      "value": 1.112104
+    },
+    {
+      "timeSec": 19.5,
+      "value": 1.106279
+    },
+    {
+      "timeSec": 19.75,
+      "value": 1.117922
+    },
+    {
+      "timeSec": 20,
+      "value": 1.115666
+    },
+    {
+      "timeSec": 20.25,
+      "value": 1.114092
+    },
+    {
+      "timeSec": 20.5,
+      "value": 1.134149
+    },
+    {
+      "timeSec": 20.75,
+      "value": 1.127333
+    },
+    {
+      "timeSec": 21,
+      "value": 1.173409
+    },
+    {
+      "timeSec": 21.25,
+      "value": 1.168381
+    },
+    {
+      "timeSec": 21.5,
+      "value": 1.149775
+    },
+    {
+      "timeSec": 21.75,
+      "value": 1.154905
+    },
+    {
+      "timeSec": 22,
+      "value": 1.143156
+    },
+    {
+      "timeSec": 22.25,
+      "value": 1.173104
+    },
+    {
+      "timeSec": 22.5,
+      "value": 1.185464
+    },
+    {
+      "timeSec": 22.75,
+      "value": 1.172593
+    },
+    {
+      "timeSec": 23,
+      "value": 1.151168
+    },
+    {
+      "timeSec": 23.25,
+      "value": 1.191878
+    },
+    {
+      "timeSec": 23.5,
+      "value": 1.180012
+    },
+    {
+      "timeSec": 23.75,
+      "value": 1.211952
+    }
+  ]
+}

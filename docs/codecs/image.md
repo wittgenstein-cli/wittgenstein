@@ -87,9 +87,12 @@ Wittgenstein is designed around the latter.
 
 ## Honest Risk Statement
 
-The scaffold now includes a deterministic placeholder adapter and decoder bridge so teams can validate end-to-end wiring, manifests, and artifact packaging in local runs.
+The scaffold now includes:
 
-This does **not** represent image quality. Real generation quality still depends on a trained scene-to-latent adapter and a properly wired frozen decoder family.
+- a deterministic scene-to-latent adapter path for validating end-to-end wiring, manifests, and artifact packaging
+- a narrow-domain reference decoder bridge for higher-quality local showcase output on the same `scene spec -> adapter -> decoder -> PNG` path
+
+This still does **not** represent the final image thesis. Real generation quality ultimately depends on a properly wired frozen decoder family and a stronger scene-to-latent adapter than the current scaffold uses.
 
 ## Training the scene→latent adapter (v1)
 

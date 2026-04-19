@@ -26,10 +26,10 @@ export async function adaptSceneToLatents(
 
   const resolved = await resolveMlpForScene(parsed, ctx);
   if (resolved) {
-    return predictWithResolved(parsed, resolved);
+    return annotateLatents(parsed, await predictWithResolved(parsed, resolved));
   }
 
-  return placeholderLatents(parsed, ctx);
+  return annotateLatents(parsed, placeholderLatents(parsed, ctx));
 }
 
 function placeholderLatents(parsed: ImageSceneSpec, ctx: RenderCtx): ImageLatentCodes {
@@ -56,6 +56,66 @@ function placeholderLatents(parsed: ImageSceneSpec, ctx: RenderCtx): ImageLatent
     "Using placeholder scene-to-latent adapter; set WITTGENSTEIN_IMAGE_ADAPTER_PREFERRED_PATH + WITTGENSTEIN_IMAGE_ADAPTER_LEGACY_PATH (or legacy aliases WITTGENSTEIN_IMAGE_ADAPTER_MLP_PATH + WITTGENSTEIN_IMAGE_ADAPTER_MLP_FALLBACK_PATH).",
   );
   return latentCodes;
+}
+
+function annotateLatents(
+  parsed: ImageSceneSpec,
+  latents: ImageLatentCodes,
+): ImageLatentCodes {
+  const seed = hashSpecToSeed(parsed);
+  const tokens = [...latents.tokens];
+  if (tokens.length >= 4) {
+    tokens[0] = inferSceneMode(parsed);
+    tokens[1] = seed % 8192;
+    tokens[2] = (seed >>> 5) % 8192;
+    tokens[3] = (seed >>> 11) % 8192;
+  }
+
+  return ImageLatentCodesSchema.parse({
+    ...latents,
+    tokens,
+  });
+}
+
+function inferSceneMode(parsed: ImageSceneSpec): number {
+  const haystack = `${parsed.subject} ${parsed.intent}`.toLowerCase();
+  if (
+    haystack.includes("coast") ||
+    haystack.includes("shore") ||
+    haystack.includes("beach") ||
+    haystack.includes("ocean")
+  ) {
+    return 0;
+  }
+  if (
+    haystack.includes("forest") ||
+    haystack.includes("wood") ||
+    haystack.includes("tree")
+  ) {
+    return 1;
+  }
+  if (
+    haystack.includes("lake") ||
+    haystack.includes("river") ||
+    haystack.includes("water")
+  ) {
+    return 2;
+  }
+  if (
+    haystack.includes("mountain") ||
+    haystack.includes("peak") ||
+    haystack.includes("alpine")
+  ) {
+    return 3;
+  }
+  if (
+    haystack.includes("meadow") ||
+    haystack.includes("hill") ||
+    haystack.includes("field")
+  ) {
+    return 4;
+  }
+  return hashSpecToSeed(parsed) % 5;
 }
 
 function hashSpecToSeed(parsed: ImageSceneSpec): number {
