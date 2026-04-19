@@ -23,7 +23,9 @@
     "bootstrap": "tsx scripts/bootstrap.ts",
     "new-adr": "tsx scripts/new-adr.ts",
     "doctor": "pnpm --filter @wittgenstein/cli exec wittgenstein doctor",
-    "dev:site": "pnpm --filter @wittgenstein-site dev"
+    "dev:site": "pnpm --filter @wittgenstein-site dev",
+    "dev:presentation": "pnpm --filter @wittgenstein/presentation dev",
+    "dev:wittgenstein-kimi": "pnpm --filter @wittgenstein/wittgenstein-kimi-deck dev"
   },
   "devDependencies": {
     "@wittgenstein/cli": "workspace:*",

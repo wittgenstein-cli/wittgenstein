@@ -1,0 +1,14 @@
+{
+  "name": "@wittgenstein/wittgenstein-kimi-deck",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Wittgenstein deck in Kimi_Agent clone (Aquin) visual language — static HTML.",
+  "scripts": {
+    "dev": "python3 -m http.server 4289 --bind 127.0.0.1",
+    "open": "open http://127.0.0.1:4289/",
+    "generate-logo": "node scripts/generate-ascii-logo.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

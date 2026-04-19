@@ -5,11 +5,12 @@ export const Modality = {
   Audio: "audio",
   Video: "video",
   Sensor: "sensor",
+  Svg: "svg",
 } as const;
 
 export type Modality = (typeof Modality)[keyof typeof Modality];
 
-export const ModalitySchema = z.enum(["image", "audio", "video", "sensor"]);
+export const ModalitySchema = z.enum(["image", "audio", "video", "sensor", "svg"]);
 
 export const BaseRequestSchema = z.object({
   prompt: z.string().min(1),
@@ -46,10 +47,16 @@ export const SensorRequestSchema = BaseRequestSchema.extend({
 });
 export type SensorRequest = z.infer<typeof SensorRequestSchema>;
 
+export const SvgRequestSchema = BaseRequestSchema.extend({
+  modality: z.literal("svg"),
+});
+export type SvgRequest = z.infer<typeof SvgRequestSchema>;
+
 export const WittgensteinRequestSchema = z.discriminatedUnion("modality", [
   ImageRequestSchema,
   AudioRequestSchema,
   VideoRequestSchema,
   SensorRequestSchema,
+  SvgRequestSchema,
 ]);
 export type WittgensteinRequest = z.infer<typeof WittgensteinRequestSchema>;

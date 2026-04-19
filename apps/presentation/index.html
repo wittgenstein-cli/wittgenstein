@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wittgenstein — Modality Harness</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Aquin-adjacent: cool neutrals, crisp ink, single accent */
+        --bg: #f7f7f8;
+        --bg-elevated: #ffffff;
+        --bg-subtle: #ececee;
+        --ink: #0c0c0e;
+        --muted: #5c5c66;
+        --faint: #a1a1aa;
+        --line: rgba(12, 12, 14, 0.08);
+        --line-strong: rgba(12, 12, 14, 0.12);
+        --accent: #2f5bff;
+        --accent-soft: rgba(47, 91, 255, 0.1);
+        --radius-lg: 20px;
+        --radius-md: 12px;
+        --shadow: 0 1px 0 var(--line-strong), 0 24px 48px -12px rgba(12, 12, 14, 0.12);
+        --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-snap-type: y proximity;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .slide {
+        min-height: 100vh;
+        scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+        position: relative;
+      }
+
+      .slide::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle at 20% 0%, rgba(47, 91, 255, 0.06), transparent 45%),
+          radial-gradient(circle at 100% 60%, rgba(12, 12, 14, 0.03), transparent 40%);
+        pointer-events: none;
+      }
+
+      .inner {
+        position: relative;
+        z-index: 1;
+        max-width: 1040px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2.25rem, 5vw, 3.5rem);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.08;
+        max-width: 14ch;
+      }
+
+      h2 {
+        font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        margin-bottom: 0.75rem;
+      }
+
+      .lede {
+        margin-top: 1.5rem;
+        font-size: 1.125rem;
+        color: var(--muted);
+        max-width: 36rem;
+        line-height: 1.65;
+      }
+
+      .card {
+        background: var(--bg-elevated);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        padding: clamp(1.25rem, 3vw, 1.75rem);
+      }
+
+      .grid-2 {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+      }
+
+      @media (min-width: 720px) {
+        .grid-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid rgba(47, 91, 255, 0.2);
+      }
+
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .row {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 1.1rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .row-num {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        color: var(--faint);
+        min-width: 1.5rem;
+      }
+
+      .row-body {
+        font-size: 0.95rem;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .diagram {
+        margin-top: 2rem;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        line-height: 1.85;
+        color: var(--muted);
+        background: var(--ink);
+        color: #e4e4e7;
+        padding: 1.25rem 1.5rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--line-strong);
+        overflow-x: auto;
+        white-space: pre;
+      }
+
+      .diagram .hl {
+        color: #93c5fd;
+      }
+
+      .site-footer {
+        padding: 2.5rem 1.5rem 3rem;
+        text-align: center;
+        border-top: 1px solid var(--line);
+        font-size: 0.875rem;
+        color: var(--muted);
+        max-width: 1040px;
+        margin: 0 auto;
+      }
+
+      .site-footer p {
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      nav.dots {
+        position: fixed;
+        right: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      nav.dots a {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--line-strong);
+        border: none;
+        cursor: pointer;
+        transition: transform 0.15s, background 0.15s;
+      }
+
+      nav.dots a:hover,
+      nav.dots a:focus-visible {
+        background: var(--accent);
+        transform: scale(1.15);
+        outline: none;
+      }
+
+      .cta {
+        margin-top: 2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(47, 91, 255, 0.35);
+        padding-bottom: 2px;
+      }
+
+      .cta:hover {
+        border-bottom-color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="dots" aria-label="Sections">
+      <a href="#s1" title="Intro"></a>
+      <a href="#s2" title="Thesis"></a>
+      <a href="#s3" title="Layers"></a>
+      <a href="#s4" title="Pipeline"></a>
+      <a href="#s5" title="Codecs"></a>
+    </nav>
+
+    <section class="slide" id="s1">
+      <div class="inner">
+        <p class="eyebrow">Wittgenstein / Modality harness</p>
+        <h1>Text-native models, file-native outputs.</h1>
+        <p class="lede">
+          A production-grade <strong style="color: var(--ink); font-weight: 600">portability layer</strong> for
+          text-first LLMs: the model plans in structured IR; codecs compile to PNG, audio, MP4, and sensor
+          artifacts—without pretending the base weights are a full VLM.
+        </p>
+        <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center">
+          <span class="pill">Harness engineering</span>
+          <span class="pill">Typed codecs</span>
+          <span class="pill">Manifests &amp; replay</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s2">
+      <div class="inner">
+        <p class="eyebrow">Thesis</p>
+        <h2>Agent = Model + Harness—extended with modality codecs.</h2>
+        <p class="lede">
+          Industry harnesses handle tools, memory, and control flow. Wittgenstein adds a clear seam:
+          <strong style="color: var(--ink); font-weight: 600">natural structured IR</strong> plus deterministic
+          renderers and optional tiny adapters. Post-training can move to the harness bundle instead of the base
+          model when that trade-off wins.
+        </p>
+        <div class="stack" style="max-width: 40rem; margin-top: 2rem">
+          <div class="card">
+            <p style="font-size: 0.95rem; color: var(--muted); line-height: 1.65">
+              The LLM stays the planner. The harness owns routing, schema preambles, validation, retries, budgets,
+              sandboxed execution, and traces under <span style="font-family: var(--font-mono); font-size: 0.85em">artifacts/runs/</span>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s3">
+      <div class="inner">
+        <p class="eyebrow">Architecture</p>
+        <h2>Five explicit layers—so work lands in the right package.</h2>
+        <p class="lede">Same decomposition as the monorepo: runtime, IR, decoder, adapter, distribution.</p>
+        <div class="stack" style="margin-top: 1.5rem">
+          <div class="row">
+            <span class="row-num">L1</span>
+            <div class="row-body"><strong style="color: var(--ink)">Harness / runtime</strong> — router, retry, seed, budget, telemetry, sandbox.</div>
+          </div>
+          <div class="row">
+            <span class="row-num">L2</span>
+            <div class="row-body"><strong style="color: var(--ink)">IR / codec</strong> — zod schemas, prompt contracts, parse only structured success paths.</div>
+          </div>
+          <div class="row">
+            <span class="row-num">L3</span>
+            <div class="row-body"><strong style="color: var(--ink)">Renderer / decoder</strong> — IR to bytes; frozen decoders in-bounds, generators out-of-scope.</div>
+          </div>
+          <div class="row">
+            <span class="row-num">L4</span>
+            <div class="row-body"><strong style="color: var(--ink)">Optional adapter</strong> — small learned translators (e.g. scene → latents) shipped beside codecs.</div>
+          </div>
+          <div class="row">
+            <span class="row-num">L5</span>
+            <div class="row-body"><strong style="color: var(--ink)">Packaging</strong> — CLI, install scripts, skills, docs as system of record.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s4">
+      <div class="inner">
+        <p class="eyebrow">Sole image path (locked)</p>
+        <h2>Semantic JSON → adapter → frozen decoder → PNG.</h2>
+        <p class="lede">
+          No SVG/HTML pixel hacks in the product path: the model emits a validated scene spec; the harness expands,
+          adapts to latent codes, decodes to raster, then packages a real file. Decoder ≠ generator; every run writes a
+          trace.
+        </p>
+        <div class="diagram" aria-hidden="true">
+<span class="hl">User prompt</span>
+    →  schema preamble + JSON contract
+          →  <span class="hl">LLM</span> (planner)
+                →  <span class="hl">parse</span> (zod)
+                      →  <span class="hl">expand</span> →  <span class="hl">adapter</span> (latents)
+                            →  <span class="hl">decoder</span> (frozen)
+                                  →  <span class="hl">packageRasterAsPng</span>
+                                        →  artifact + manifest
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="s5">
+      <div class="inner">
+        <p class="eyebrow">Modality surface</p>
+        <h2>Codecs in the workspace today.</h2>
+        <p class="lede">Each modality is an isolated package sharing the WittgensteinCodec-shaped contract through shared schemas.</p>
+        <div class="grid-2" style="margin-top: 1.75rem">
+          <div class="card">
+            <p class="eyebrow" style="margin-bottom: 0.5rem">Image</p>
+            <p style="font-size: 0.95rem; color: var(--muted)">Neural pipeline stub: scene spec, latent bridge, PNG packaging.</p>
+          </div>
+          <div class="card">
+            <p class="eyebrow" style="margin-bottom: 0.5rem">Audio</p>
+            <p style="font-size: 0.95rem; color: var(--muted)">Routes for speech, soundscape, music—TTS and mixers to follow.</p>
+          </div>
+          <div class="card">
+            <p class="eyebrow" style="margin-bottom: 0.5rem">Video</p>
+            <p style="font-size: 0.95rem; color: var(--muted)">HyperFrames-shaped wrapper for HTML → MP4 compile path.</p>
+          </div>
+          <div class="card">
+            <p class="eyebrow" style="margin-bottom: 0.5rem">Sensor</p>
+            <p style="font-size: 0.95rem; color: var(--muted)">Procedural signals and typed exports for time-series demos.</p>
+          </div>
+        </div>
+        <a class="cta" href="#s1">Back to top →</a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© 2026 Wittgenstein. Licensed under Apache-2.0.</p>
+    </footer>
+  </body>
+</html>

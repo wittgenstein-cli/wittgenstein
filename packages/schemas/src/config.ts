@@ -20,6 +20,13 @@ export const LlmConfigSchema = z.object({
 });
 export type LlmConfig = z.infer<typeof LlmConfigSchema>;
 
+export const SvgEngineConfigSchema = z.object({
+  inferenceUrl: z.string().url().default("http://127.0.0.1:8777"),
+  requestPath: z.string().default("/v1/generate"),
+  timeoutMs: z.number().int().positive().default(120_000),
+});
+export type SvgEngineConfig = z.infer<typeof SvgEngineConfigSchema>;
+
 export const RuntimeConfigSchema = z.object({
   artifactsDir: z.string().default("artifacts"),
   defaultSeed: z.number().int().nullable().default(null),
@@ -47,8 +54,14 @@ export const WittgensteinConfigSchema = z.object({
       audio: z.object({ enabled: z.boolean().default(true) }).default({}),
       video: z.object({ enabled: z.boolean().default(true) }).default({}),
       sensor: z.object({ enabled: z.boolean().default(true) }).default({}),
+      svg: z.object({ enabled: z.boolean().default(true) }).default({}),
     })
     .default({}),
+  svg: SvgEngineConfigSchema.default({
+    inferenceUrl: "http://127.0.0.1:8777",
+    requestPath: "/v1/generate",
+    timeoutMs: 120_000,
+  }),
 });
 export type WittgensteinConfig = z.infer<typeof WittgensteinConfigSchema>;
 
@@ -71,5 +84,10 @@ export const DEFAULT_WITTGENSTEIN_CONFIG: WittgensteinConfig = WittgensteinConfi
       maxCostUsd: 1,
       maxTokens: 100000,
     },
+  },
+  svg: {
+    inferenceUrl: "http://127.0.0.1:8777",
+    requestPath: "/v1/generate",
+    timeoutMs: 120_000,
   },
 });

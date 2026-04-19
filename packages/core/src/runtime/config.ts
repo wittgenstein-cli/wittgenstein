@@ -51,6 +51,10 @@ export async function loadWittgensteinConfig(
       ...DEFAULT_WITTGENSTEIN_CONFIG.codecs,
       ...loadedConfig.codecs,
     },
+    svg: {
+      ...DEFAULT_WITTGENSTEIN_CONFIG.svg,
+      ...loadedConfig.svg,
+    },
   };
 
   if (env.WITTGENSTEIN_LLM_PROVIDER) {
@@ -67,6 +71,13 @@ export async function loadWittgensteinConfig(
 
   if (env.WITTGENSTEIN_ARTIFACTS_DIR) {
     merged.runtime.artifactsDir = env.WITTGENSTEIN_ARTIFACTS_DIR;
+  }
+
+  if (env.WITTGENSTEIN_SVG_INFERENCE_URL) {
+    merged.svg = {
+      ...merged.svg,
+      inferenceUrl: env.WITTGENSTEIN_SVG_INFERENCE_URL,
+    };
   }
 
   return WittgensteinConfigSchema.parse(merged);

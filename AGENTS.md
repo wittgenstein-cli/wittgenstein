@@ -17,7 +17,8 @@ Read [`docs/architecture.md`](docs/architecture.md) before changing structure.
 ## Locked Constraints
 
 - Image has exactly one shipping path: `LLM -> structured JSON scene -> adapter -> frozen decoder -> PNG`.
-- There is no image fallback in this scaffold. No SVG, HTML, Canvas, or painter tier.
+- There is no **raster image** fallback in this scaffold. No SVG-as-PNG, HTML, Canvas, or painter tier for the image codec.
+- A separate **`svg` modality** (`packages/codec-svg`) targets vector output via a local grammar-constrained engine (`research/chat2svg-lora/`); it is not an image-path escape hatch.
 - Decoder is not generator. Frozen pretrained decoders are allowed; diffusion and text-to-image generators are out of scope.
 - Every run must be traceable in `artifacts/runs/<run-id>/`.
 - Shared contracts live in `packages/schemas`; codec packages should depend on schemas, not on each other.
@@ -32,6 +33,7 @@ Read [`docs/architecture.md`](docs/architecture.md) before changing structure.
 - `packages/codec-audio/` — speech / soundscape / music codec routes
 - `packages/codec-video/` — video composition IR + HyperFrames wrapper stub
 - `packages/codec-sensor/` — procedural signal IR + deterministic signal stubs
+- `packages/codec-svg/` — SVG IR (`{"svg": "..."}`) + deterministic write; generation is delegated to the grammar engine HTTP contract
 - `packages/cli/` — `wittgenstein` entrypoint and subcommands
 - `apps/site/` — official site app
 - `docs/` — system of record

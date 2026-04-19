@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wittgenstein — Modality harness</title>
+    <!-- Visual system: DESIGN.md (Claude / Anthropic inspired) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* DESIGN.md — Primary & surfaces */
+        --near-black: #141413;
+        --terracotta: #c96442;
+        --coral: #d97757;
+        --parchment: #f5f4ed;
+        --ivory: #faf9f5;
+        --white: #ffffff;
+        --warm-sand: #e8e6dc;
+        --dark-surface: #30302e;
+        --deep-dark: #141413;
+        /* Neutrals */
+        --charcoal-warm: #4d4c48;
+        --olive-gray: #5e5d59;
+        --stone-gray: #87867f;
+        --dark-warm: #3d3d3a;
+        --warm-silver: #b0aea5;
+        --border-cream: #f0eee6;
+        --border-warm: #e8e6dc;
+        --ring-warm: #d1cfc5;
+        --focus-blue: #3898ec;
+        --muted-green: #5c6b54;
+        --whisper: 0 4px 24px rgba(0, 0, 0, 0.05);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --font-serif: Georgia, "Times New Roman", serif;
+        --font-sans: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI", Arial, sans-serif;
+        --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background: var(--parchment);
+        color: var(--near-black);
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--focus-blue);
+        outline-offset: 2px;
+      }
+
+      .font-serif {
+        font-family: var(--font-serif);
+        font-weight: 500;
+      }
+
+      .font-mono {
+        font-family: var(--font-mono);
+      }
+
+      /* —— Nav: ivory / warm sticky —— */
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: rgba(250, 249, 245, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-cream);
+        box-shadow: 0 0 0 1px rgba(209, 207, 197, 0.35);
+      }
+
+      .nav-inner {
+        max-width: 75rem;
+        margin: 0 auto;
+        padding: 0 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 4rem;
+      }
+
+      @media (min-width: 1024px) {
+        .nav-inner {
+          padding: 0 2rem;
+        }
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .brand-logo {
+        height: 1.75rem;
+        width: auto;
+        display: block;
+        image-rendering: crisp-edges;
+      }
+
+      .brand-title {
+        font-family: var(--font-serif);
+        font-size: 1.0625rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        color: var(--near-black);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .nav-links a:not(.nav-cta) {
+        font-size: 1.0625rem;
+        font-weight: 400;
+        color: var(--olive-gray);
+        transition: color 0.15s;
+      }
+
+      .nav-links a:not(.nav-cta):hover {
+        color: var(--near-black);
+      }
+
+      .nav-cta {
+        font-size: 0.9375rem;
+        font-weight: 500;
+        padding: 0.5rem 1.1rem;
+        border-radius: var(--radius-md);
+        background: var(--terracotta);
+        color: var(--ivory);
+        box-shadow: 0 0 0 1px var(--terracotta);
+        transition: background 0.15s, box-shadow 0.15s;
+      }
+
+      .nav-cta:hover {
+        background: #b5573a;
+        box-shadow: 0 0 0 1px #b5573a;
+      }
+
+      /* —— Hero —— */
+      .hero {
+        padding: 7.5rem 1.25rem 3.5rem;
+        text-align: center;
+        max-width: 48rem;
+        margin: 0 auto;
+      }
+
+      .hero-kicker {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--stone-gray);
+        margin-bottom: 1.25rem;
+      }
+
+      .hero h1 {
+        font-family: var(--font-serif);
+        font-size: clamp(2.25rem, 6vw, 4rem);
+        font-weight: 500;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        color: var(--near-black);
+        margin-bottom: 1.75rem;
+      }
+
+      .hero-lede {
+        font-size: 1.25rem;
+        font-weight: 400;
+        color: var(--olive-gray);
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .btn-terracotta {
+        display: inline-block;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 0.65rem 1.35rem;
+        border-radius: var(--radius-md);
+        background: var(--terracotta);
+        color: var(--ivory);
+        box-shadow: 0 0 0 1px var(--terracotta);
+        transition: background 0.15s;
+      }
+
+      .btn-terracotta:hover {
+        background: #b5573a;
+      }
+
+      .pills {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .pill {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--charcoal-warm);
+        padding: 0.4rem 0.75rem;
+        border-radius: 999px;
+        background: var(--warm-sand);
+        box-shadow: 0 0 0 1px var(--ring-warm);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.55s ease-out forwards;
+      }
+
+      /* —— Neural diagram —— */
+      .neural-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 2rem 1rem 2.5rem;
+        background: var(--parchment);
+      }
+
+      .neural-wrap svg {
+        width: 100%;
+        max-width: 52rem;
+        height: auto;
+      }
+
+      /* —— Built with —— */
+      .backed {
+        padding: 3.5rem 1.25rem;
+        border-top: 1px solid var(--border-cream);
+        background: var(--ivory);
+      }
+
+      .backed-label {
+        text-align: center;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--stone-gray);
+        margin-bottom: 1.75rem;
+      }
+
+      .backed-row {
+        max-width: 52rem;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1.75rem 2.5rem;
+      }
+
+      .backed-item {
+        font-size: 0.9375rem;
+        font-weight: 500;
+        color: var(--dark-warm);
+        opacity: 0.85;
+        transition: opacity 0.15s;
+      }
+
+      .backed-item:hover {
+        opacity: 1;
+      }
+
+      /* —— Sections (light) —— */
+      .section {
+        padding: 5rem 1.25rem;
+        background: var(--parchment);
+      }
+
+      .section-inner {
+        max-width: 48rem;
+        margin: 0 auto;
+      }
+
+      .section-number {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--stone-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .section h2 {
+        font-family: var(--font-serif);
+        font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+        font-weight: 500;
+        line-height: 1.18;
+        letter-spacing: -0.02em;
+        color: var(--near-black);
+        margin-bottom: 1rem;
+      }
+
+      .section h2.lowercase {
+        text-transform: lowercase;
+      }
+
+      .section-intro {
+        font-size: 1.0625rem;
+        color: var(--olive-gray);
+        line-height: 1.6;
+        max-width: 36rem;
+        margin-bottom: 2.25rem;
+      }
+
+      .section-ivory {
+        background: var(--ivory);
+        border-top: 1px solid var(--border-cream);
+        border-bottom: 1px solid var(--border-cream);
+      }
+
+      .card-surface {
+        background: var(--ivory);
+        border: 1px solid var(--border-cream);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--whisper);
+      }
+
+      .card-pad {
+        padding: 1.75rem 1.5rem;
+      }
+
+      .card-label {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--stone-gray);
+        margin-bottom: 1rem;
+      }
+
+      .grid-2 {
+        display: grid;
+        gap: 1.25rem;
+        grid-template-columns: 1fr;
+      }
+
+      @media (min-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .token-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .token {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        border-radius: 6px;
+        background: var(--warm-sand);
+        color: var(--charcoal-warm);
+        box-shadow: 0 0 0 1px var(--ring-warm);
+      }
+
+      .token.hl {
+        background: rgba(201, 100, 66, 0.14);
+        color: var(--near-black);
+        box-shadow: 0 0 0 1px rgba(201, 100, 66, 0.35);
+      }
+
+      .arrow-down {
+        display: flex;
+        justify-content: center;
+        margin: 1.35rem 0;
+        color: var(--stone-gray);
+      }
+
+      .layer-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .layer-row {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 1.1rem 1.25rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-cream);
+        background: var(--white);
+        box-shadow: 0 0 0 1px rgba(240, 238, 230, 0.8);
+      }
+
+      .layer-num {
+        font-size: 0.75rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        color: var(--stone-gray);
+        min-width: 2rem;
+      }
+
+      .layer-row p {
+        font-size: 1rem;
+        color: var(--olive-gray);
+        line-height: 1.55;
+      }
+
+      /* —— Dark chapter: pipeline (DESIGN.md §4 dark/light alternation) —— */
+      .section-dark {
+        padding: 5rem 1.25rem;
+        background: var(--deep-dark);
+        color: var(--ivory);
+        border-top: 1px solid var(--dark-surface);
+        border-bottom: 1px solid var(--dark-surface);
+      }
+
+      .section-dark .section-number {
+        color: var(--warm-silver);
+      }
+
+      .section-dark h2 {
+        color: var(--ivory);
+      }
+
+      .section-dark .section-intro {
+        color: var(--warm-silver);
+      }
+
+      .diagram-wrap {
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--dark-surface);
+        overflow: hidden;
+        background: var(--dark-surface);
+      }
+
+      .diagram {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        line-height: 1.85;
+        color: var(--warm-silver);
+        padding: 1.35rem 1.5rem;
+        overflow-x: auto;
+        white-space: pre;
+      }
+
+      .diagram .hl {
+        color: var(--coral);
+      }
+
+      .inset-card {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--dark-surface);
+        background: rgba(48, 48, 46, 0.55);
+      }
+
+      .inset-card .card-label {
+        color: var(--warm-silver);
+      }
+
+      .layer-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .layer-bar-track {
+        flex: 1;
+        height: 1.35rem;
+        background: rgba(20, 20, 19, 0.5);
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid var(--dark-surface);
+      }
+
+      .layer-bar-fill {
+        height: 100%;
+        background: var(--terracotta);
+        border-radius: 6px;
+      }
+
+      .layer-bar-fill.alt {
+        background: var(--muted-green);
+      }
+
+      .bar-caption {
+        font-size: 0.8125rem;
+        color: var(--warm-silver);
+        line-height: 1.5;
+        margin-top: 0.75rem;
+      }
+
+      .codec-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+      }
+
+      @media (min-width: 640px) {
+        .codec-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .codec-card .label {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--stone-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .codec-card p {
+        font-size: 1rem;
+        color: var(--olive-gray);
+        line-height: 1.55;
+      }
+
+      /* —— Footer CTA —— */
+      .footer-cta {
+        padding: 5rem 1.25rem;
+        text-align: center;
+        background: var(--warm-sand);
+        border-top: 1px solid var(--border-warm);
+      }
+
+      .footer-cta h2 {
+        font-family: var(--font-serif);
+        font-size: clamp(1.5rem, 3vw, 1.9rem);
+        font-weight: 500;
+        color: var(--near-black);
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+      }
+
+      .footer-cta .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.65rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .btn-sand {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.9375rem;
+        font-weight: 500;
+        padding: 0.55rem 1.1rem;
+        border-radius: var(--radius-sm);
+        background: var(--ivory);
+        color: var(--charcoal-warm);
+        border: 1px solid transparent;
+        box-shadow: 0 0 0 1px var(--ring-warm);
+        transition: box-shadow 0.15s, background 0.15s;
+      }
+
+      .btn-sand:hover {
+        background: var(--white);
+        box-shadow: 0 0 0 1px var(--stone-gray);
+      }
+
+      .social-row {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .social-dot {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 9999px;
+        background: var(--ivory);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--olive-gray);
+        box-shadow: 0 0 0 1px var(--ring-warm);
+        transition: background 0.15s;
+      }
+
+      .social-dot:hover {
+        background: var(--white);
+        color: var(--near-black);
+      }
+
+      /* —— Site footer —— */
+      .site-footer {
+        padding: 3.5rem 1.25rem 2rem;
+        background: var(--near-black);
+        color: var(--warm-silver);
+        border-top: 1px solid var(--dark-surface);
+      }
+
+      .site-footer .links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+      }
+
+      .site-footer .links a {
+        color: var(--warm-silver);
+        transition: color 0.15s;
+      }
+
+      .site-footer .links a:hover {
+        color: var(--ivory);
+      }
+
+      .site-footer .copy {
+        text-align: center;
+        font-size: 0.875rem;
+        color: var(--stone-gray);
+        margin-bottom: 2.5rem;
+      }
+
+      .site-footer .wordmark {
+        text-align: center;
+        font-family: var(--font-serif);
+        font-weight: 500;
+        font-size: clamp(3.5rem, 16vw, 10rem);
+        line-height: 1;
+        color: rgba(176, 174, 165, 0.22);
+        user-select: none;
+        pointer-events: none;
+      }
+
+      strong {
+        font-weight: 600;
+        color: var(--dark-warm);
+      }
+
+      .section-dark strong {
+        color: var(--ivory);
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav" aria-label="Primary">
+      <div class="nav-inner">
+        <a href="#top" class="brand">
+          <img
+            class="brand-logo"
+            src="ascii-art-60x30.png"
+            width="60"
+            height="30"
+            alt=""
+            decoding="async"
+          />
+          <span class="brand-title">Wittgenstein</span>
+        </a>
+        <div class="nav-links">
+          <a href="#s-thesis">Research</a>
+          <a href="#s-layers">Layers</a>
+          <a href="#s-pipeline">Pipeline</a>
+          <a href="#s-codecs">Codecs</a>
+          <a class="nav-cta" href="#footer-cta">Start</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero animate-fade-in-up" id="top">
+      <p class="hero-kicker">Modality harness</p>
+      <h1>text-native models, file-native outputs.</h1>
+      <p class="hero-lede">
+        A production-grade <strong>portability layer</strong> for text-first LLMs: the model plans in structured IR;
+        codecs compile to PNG, audio, MP4, and sensor artifacts — without pretending the base weights are a full VLM.
+      </p>
+      <a class="btn-terracotta" href="#s-layers">Inspect the five layers</a>
+      <div class="pills">
+        <span class="pill">Harness engineering</span>
+        <span class="pill">Typed codecs</span>
+        <span class="pill">Manifests &amp; replay</span>
+      </div>
+    </header>
+
+    <div class="neural-wrap" aria-hidden="true">
+      <svg viewBox="0 0 800 200" role="img" aria-label="Request flow">
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#c2c0b6" />
+          </marker>
+        </defs>
+        <g stroke="#d1cfc5" stroke-width="1" opacity="0.9">
+          <line x1="100" y1="100" x2="200" y2="100" marker-end="url(#arrow)" />
+          <line x1="260" y1="100" x2="360" y2="100" marker-end="url(#arrow)" />
+          <line x1="420" y1="100" x2="520" y2="100" marker-end="url(#arrow)" />
+          <line x1="580" y1="100" x2="680" y2="100" marker-end="url(#arrow)" />
+        </g>
+        <g font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#5e5d59" text-anchor="middle">
+          <circle cx="60" cy="100" r="22" fill="#30302e" />
+          <text x="60" y="104" fill="#faf9f5">in</text>
+          <circle cx="230" cy="100" r="20" fill="#faf9f5" stroke="#e8e6dc" />
+          <text x="230" y="104" fill="#141413">LLM</text>
+          <circle cx="390" cy="100" r="20" fill="#c96442" stroke="none" />
+          <text x="390" y="104" fill="#faf9f5">IR</text>
+          <circle cx="550" cy="100" r="20" fill="#faf9f5" stroke="#e8e6dc" />
+          <text x="550" y="104" fill="#141413">codec</text>
+          <circle cx="740" cy="100" r="26" fill="#5c6b54" />
+          <text x="740" y="104" fill="#faf9f5">file</text>
+        </g>
+      </svg>
+    </div>
+
+    <section class="backed" aria-labelledby="backed-label">
+      <p id="backed-label" class="backed-label">Built with</p>
+      <div class="backed-row">
+        <span class="backed-item">TypeScript</span>
+        <span class="backed-item">pnpm</span>
+        <span class="backed-item">zod</span>
+        <span class="backed-item">Node 20+</span>
+        <span class="backed-item">Next.js</span>
+        <span class="backed-item">Vitest</span>
+      </div>
+    </section>
+
+    <section class="section" id="s-thesis">
+      <div class="section-inner">
+        <span class="section-number">01</span>
+        <h2 class="lowercase font-serif">thesis</h2>
+        <p class="section-intro">
+          Agent = Model + Harness — extended with modality codecs. The LLM stays the planner; the harness owns routing,
+          schemas, validation, retries, budgets, and traces.
+        </p>
+        <div class="grid-2">
+          <div class="card-surface card-pad">
+            <div class="card-label">prompt / intent</div>
+            <div class="token-row">
+              <span class="token">Generate</span>
+              <span class="token hl">a</span>
+              <span class="token hl">PNG</span>
+              <span class="token">diagram</span>
+              <span class="token">of</span>
+              <span class="token hl">layers</span>
+            </div>
+            <div class="arrow-down">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7" />
+              </svg>
+            </div>
+            <div class="card-label">structured IR</div>
+            <div class="token-row">
+              <span class="token hl">scene</span>
+              <span class="token hl">spec</span>
+              <span class="token">JSON</span>
+              <span class="token">valid</span>
+              <span class="token hl">zod</span>
+            </div>
+          </div>
+          <div class="card-surface card-pad">
+            <div class="card-label">why it scales</div>
+            <p style="font-size: 1.0625rem; color: var(--olive-gray); line-height: 1.6">
+              Industry harnesses handle tools, memory, and control flow. Wittgenstein adds a clear seam:
+              <strong>natural structured IR</strong> plus deterministic renderers and optional tiny adapters. Post-training can
+              move to the harness bundle instead of the base model when that trade-off wins. Runs leave artifacts under
+              <span class="font-mono" style="font-size: 0.9em; color: var(--dark-warm)">artifacts/runs/</span>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-ivory" id="s-layers">
+      <div class="section-inner">
+        <span class="section-number">02</span>
+        <h2 class="lowercase font-serif">layers</h2>
+        <p class="section-intro">
+          Five explicit layers map to packages — so contributors cannot implement the idea in the wrong place.
+        </p>
+        <div class="layer-list">
+          <div class="layer-row">
+            <span class="layer-num">L1</span>
+            <p><strong>Harness / runtime</strong> — router, retry, seed, budget, telemetry, sandbox.</p>
+          </div>
+          <div class="layer-row">
+            <span class="layer-num">L2</span>
+            <p><strong>IR / codec</strong> — zod schemas, prompt contracts, parse only structured success paths.</p>
+          </div>
+          <div class="layer-row">
+            <span class="layer-num">L3</span>
+            <p><strong>Renderer / decoder</strong> — IR to bytes; frozen decoders in-bounds, generators out-of-scope.</p>
+          </div>
+          <div class="layer-row">
+            <span class="layer-num">L4</span>
+            <p><strong>Optional adapter</strong> — small learned translators (e.g. scene → latents) shipped beside codecs.</p>
+          </div>
+          <div class="layer-row">
+            <span class="layer-num">L5</span>
+            <p><strong>Packaging</strong> — CLI, install scripts, skills, docs as system of record.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-dark" id="s-pipeline">
+      <div class="section-inner">
+        <span class="section-number">03</span>
+        <h2 class="lowercase font-serif">pipeline</h2>
+        <p class="section-intro">
+          Sole image path (locked): semantic JSON → adapter → frozen decoder → PNG. Decoder ≠ generator; every run writes
+          a trace.
+        </p>
+        <div class="diagram-wrap">
+          <div class="diagram" aria-hidden="true">
+<span class="hl">User prompt</span>
+    →  schema preamble + JSON contract
+          →  <span class="hl">LLM</span> (planner)
+                →  <span class="hl">parse</span> (zod)
+                      →  <span class="hl">expand</span> →  <span class="hl">adapter</span> (latents)
+                            →  <span class="hl">decoder</span> (frozen)
+                                  →  <span class="hl">packageRasterAsPng</span>
+                                        →  artifact + manifest
+          </div>
+        </div>
+        <div class="inset-card">
+          <div class="card-label">coverage · scaffold depth</div>
+          <div class="layer-bar">
+            <span class="font-mono" style="font-size: 0.7rem; color: var(--warm-silver); width: 5rem">runtime</span>
+            <div class="layer-bar-track">
+              <div class="layer-bar-fill" style="width: 88%"></div>
+            </div>
+            <span class="font-mono" style="font-size: 0.7rem; color: var(--warm-silver); width: 2.5rem; text-align: right">88%</span>
+          </div>
+          <div class="layer-bar">
+            <span class="font-mono" style="font-size: 0.7rem; color: var(--warm-silver); width: 5rem">codecs</span>
+            <div class="layer-bar-track">
+              <div class="layer-bar-fill alt" style="width: 42%"></div>
+            </div>
+            <span class="font-mono" style="font-size: 0.7rem; color: var(--warm-silver); width: 2.5rem; text-align: right">42%</span>
+          </div>
+          <p class="bar-caption">
+            Illustrative only: runtime spine is further along; renderers remain mostly stubs until adapters land.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s-codecs">
+      <div class="section-inner">
+        <span class="section-number">04</span>
+        <h2 class="lowercase font-serif">codecs</h2>
+        <p class="section-intro">
+          Each modality is an isolated package sharing the <strong>WittgensteinCodec</strong>-shaped contract through shared schemas.
+        </p>
+        <div class="codec-grid">
+          <div class="card-surface card-pad codec-card">
+            <p class="label">Image</p>
+            <p>Neural pipeline stub: scene spec, latent bridge, PNG packaging.</p>
+          </div>
+          <div class="card-surface card-pad codec-card">
+            <p class="label">Audio</p>
+            <p>Routes for speech, soundscape, music — TTS and mixers to follow.</p>
+          </div>
+          <div class="card-surface card-pad codec-card">
+            <p class="label">Video</p>
+            <p>HyperFrames-shaped wrapper for HTML → MP4 compile path.</p>
+          </div>
+          <div class="card-surface card-pad codec-card">
+            <p class="label">Sensor</p>
+            <p>Procedural signals and typed exports for time-series demos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer-cta" id="footer-cta">
+      <h2 class="font-serif">Not sure where to start?</h2>
+      <div class="row">
+        <a class="btn-sand" href="#top">Back to overview</a>
+        <span class="btn-sand" title="In repository">docs/architecture.md</span>
+        <span class="btn-sand" title="From monorepo root">pnpm doctor</span>
+      </div>
+      <div class="social-row" aria-label="Section anchors">
+        <a class="social-dot" href="#s-thesis" title="Thesis">T</a>
+        <a class="social-dot" href="#s-layers" title="Layers">L</a>
+        <a class="social-dot" href="#s-pipeline" title="Pipeline">P</a>
+        <a class="social-dot" href="#s-codecs" title="Codecs">C</a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="links">
+        <a href="#top">Status</a>
+        <a href="#s-layers">Layers</a>
+        <a href="#s-thesis">Research</a>
+      </div>
+      <p class="copy">&copy; 2026 Wittgenstein. Apache-2.0.</p>
+      <div class="wordmark">Wittgenstein</div>
+    </footer>
+  </body>
+</html>

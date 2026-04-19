@@ -1,5 +1,10 @@
 import { resolve } from "node:path";
-import type { WittgensteinRequest, RenderCtx, RenderResult, RunManifest } from "@wittgenstein/schemas";
+import type {
+  WittgensteinRequest,
+  RenderCtx,
+  RenderResult,
+  RunManifest,
+} from "@wittgenstein/schemas";
 import { loadWittgensteinConfig } from "./config.js";
 import { BudgetTracker } from "./budget.js";
 import { collectRuntimeFingerprint, hashFile } from "./manifest.js";
@@ -16,6 +21,8 @@ import { registerAudioCodec } from "../codecs/audio.js";
 import { registerImageCodec } from "../codecs/image.js";
 import { registerVideoCodec } from "../codecs/video.js";
 import { registerSensorCodec } from "../codecs/sensor.js";
+import { registerSvgCodec } from "../codecs/svg.js";
+import { generateSvgFromEngine } from "./svg-generation.js";
 
 export interface HarnessRunOptions {
   command: string;
@@ -111,8 +118,15 @@ export class Wittgenstein {
 
     try {
       const generation = options.dryRun
-        ? createDryRunGeneration()
-        : await this.generateStructured(promptExpanded, seed);
+        ? createDryRunGeneration(request)
+        : request.modality === "svg"
+          ? await generateSvgFromEngine(promptExpanded, seed, this.config.svg)
+          : await this.generateStructured(promptExpanded, seed);
+
+      if (request.modality === "svg") {
+        manifest.llmProvider = "svg-engine";
+        manifest.llmModel = this.config.svg.inferenceUrl;
+      }
 
       budget.consume(
         generation.tokens.input + generation.tokens.output,
@@ -206,6 +220,7 @@ export function createDefaultRegistry(): CodecRegistry {
   registerAudioCodec(registry);
   registerVideoCodec(registry);
   registerSensorCodec(registry);
+  registerSvgCodec(registry);
   return registry;
 }
 
@@ -219,7 +234,52 @@ function createLlmAdapter(
   return new OpenAICompatibleLlmAdapter(llmConfig);
 }
 
-function createDryRunGeneration(): LlmGenerationResult {
+function createDryRunGeneration(request: WittgensteinRequest): LlmGenerationResult {
+  if (request.modality === "svg") {
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40"><rect width="120" height="40" fill="#153"/><text x="8" y="26" fill="#eee" font-size="13" font-family="system-ui,sans-serif">dry-run</text></svg>';
+    return {
+      text: JSON.stringify({ svg }),
+      tokens: { input: 0, output: 0 },
+      costUsd: 0,
+      raw: { dryRun: true },
+    };
+  }
+
+  if (request.modality === "image") {
+    const scene = {
+      intent: "Photorealistic wildlife portrait suitable for print",
+      subject: request.prompt,
+      composition: {
+        framing: "tight portrait on subject",
+        camera: "telephoto compression, shallow depth of field",
+        depthPlan: ["sharp subject", "soft bokeh", "clean background"],
+      },
+      lighting: { mood: "natural soft daylight", key: "diffused key, gentle fill" },
+      style: {
+        references: ["wildlife photography", "fine-art nature print"],
+        palette: ["neutral grey", "natural fur tones", "cool water highlights"],
+      },
+      decoder: {
+        family: "llamagen" as const,
+        codebook: "stub-codebook",
+        latentResolution: [32, 32] as [number, number],
+      },
+    };
+
+    return {
+      text: JSON.stringify(scene),
+      tokens: {
+        input: 0,
+        output: 0,
+      },
+      costUsd: 0,
+      raw: {
+        dryRun: true,
+      },
+    };
+  }
+
   return {
     text: "{}",
     tokens: {
@@ -241,7 +301,9 @@ function defaultOutputPathFor(modality: WittgensteinRequest["modality"], cwd: st
         ? "wav"
         : modality === "video"
           ? "mp4"
-          : "json";
+          : modality === "svg"
+            ? "svg"
+            : "json";
 
   return resolve(cwd, "artifacts", "runs", runId, `output.${extension}`);
 }

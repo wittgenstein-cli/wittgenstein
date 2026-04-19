@@ -75,7 +75,7 @@ export interface CodecMetadata {
 
 export const CodecMetadataSchema = z.object({
   name: z.string(),
-  modality: z.enum(["image", "audio", "video", "sensor"]),
+  modality: z.enum(["image", "audio", "video", "sensor", "svg"]),
   version: z.string(),
   routes: z.array(z.string()).optional(),
 });

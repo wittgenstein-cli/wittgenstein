@@ -7,6 +7,7 @@ describe("@wittgenstein/schemas", () => {
     expect(Modality.Audio).toBe("audio");
     expect(Modality.Video).toBe("video");
     expect(Modality.Sensor).toBe("sensor");
+    expect(Modality.Svg).toBe("svg");
   });
 
   it("validates render results and manifests", () => {

@@ -1,0 +1,10 @@
+{
+  "name": "@wittgenstein/presentation",
+  "private": true,
+  "version": "0.0.0",
+  "description": "One-page deck for Wittgenstein (Aquin-inspired visual language).",
+  "scripts": {
+    "dev": "python3 -m http.server 4280 --bind 127.0.0.1",
+    "open": "open http://127.0.0.1:4280/"
+  }
+}

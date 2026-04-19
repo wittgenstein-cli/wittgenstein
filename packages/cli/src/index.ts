@@ -6,6 +6,7 @@ import { registerImageCommand } from "./commands/image.js";
 import { registerAudioCommand } from "./commands/audio.js";
 import { registerVideoCommand } from "./commands/video.js";
 import { registerSensorCommand } from "./commands/sensor.js";
+import { registerSvgCommand } from "./commands/svg.js";
 import { registerDoctorCommand } from "./commands/doctor.js";
 
 export function createProgram(): Command {
@@ -21,6 +22,7 @@ export function createProgram(): Command {
   registerAudioCommand(program);
   registerVideoCommand(program);
   registerSensorCommand(program);
+  registerSvgCommand(program);
   registerDoctorCommand(program);
 
   return program;

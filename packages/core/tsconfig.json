@@ -8,6 +8,7 @@
     { "path": "../codec-image" },
     { "path": "../codec-audio" },
     { "path": "../codec-video" },
-    { "path": "../codec-sensor" }
+    { "path": "../codec-sensor" },
+    { "path": "../codec-svg" }
   ]
 }

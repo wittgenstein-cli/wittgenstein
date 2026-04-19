@@ -5,6 +5,6 @@ describe("@wittgenstein/core", () => {
   it("registers the four first-class codecs", () => {
     const registry = createDefaultRegistry();
     const names = registry.list().map((codec) => codec.name).sort();
-    expect(names).toEqual(["audio", "image", "sensor", "video"]);
+    expect(names).toEqual(["audio", "image", "sensor", "svg", "video"]);
   });
 });

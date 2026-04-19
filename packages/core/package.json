@@ -18,6 +18,7 @@
     "@wittgenstein/codec-audio": "workspace:*",
     "@wittgenstein/codec-image": "workspace:*",
     "@wittgenstein/codec-sensor": "workspace:*",
+    "@wittgenstein/codec-svg": "workspace:*",
     "@wittgenstein/codec-video": "workspace:*",
     "@wittgenstein/schemas": "workspace:*",
     "@wittgenstein/sandbox": "workspace:*",

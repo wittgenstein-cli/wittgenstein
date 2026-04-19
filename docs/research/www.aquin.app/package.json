@@ -1,0 +1,17 @@
+{
+  "name": "www.aquin.app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "patch:localhost": "node patch-for-localhost.mjs",
+    "serve": "python3 -m http.server 4173 --bind 127.0.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "playwright": "^1.50.1"
+  }
+}

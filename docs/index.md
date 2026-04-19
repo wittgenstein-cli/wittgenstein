@@ -3,6 +3,7 @@
 ## Core
 
 - [`architecture.md`](architecture.md)
+- [`technical-details-script.md`](technical-details-script.md)
 - [`codec-protocol.md`](codec-protocol.md)
 - [`build-philosophy.md`](build-philosophy.md)
 - [`product-spec.md`](product-spec.md)
@@ -17,6 +18,7 @@
 - [`codecs/audio.md`](codecs/audio.md)
 - [`codecs/video.md`](codecs/video.md)
 - [`codecs/sensor.md`](codecs/sensor.md)
+- [`codecs/svg.md`](codecs/svg.md)
 
 ## Architecture Decisions
 
