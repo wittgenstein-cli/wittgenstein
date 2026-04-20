@@ -4,6 +4,7 @@ import { AudioRequestSchema } from "@wittgenstein/schemas";
 
 export const AudioPlanSchema = z.object({
   route: z.enum(["speech", "soundscape", "music"]).default("speech"),
+  script: z.string().default("Wittgenstein launches a multimodal artifact."),
   voice: z
     .object({
       speaker: z.string().default("neutral"),
@@ -26,6 +27,14 @@ export const AudioPlanSchema = z.object({
       motif: z.string().default("minimal"),
     })
     .default({}),
+  ambient: z
+    .object({
+      category: z
+        .enum(["auto", "silence", "rain", "wind", "city", "forest", "electronic"])
+        .default("auto"),
+      level: z.number().min(0).max(1).default(0.22),
+    })
+    .default({}),
 });
 
 export type AudioPlan = z.infer<typeof AudioPlanSchema>;
@@ -35,8 +44,11 @@ export function audioSchemaPreamble(req: AudioRequest): string {
     "Emit a JSON audio plan.",
     "Choose route from speech, soundscape, or music.",
     "Prefer symbolic structure over raw samples.",
+    "Include a short `script` for speech or voice-led outputs.",
+    "Ambient can be auto, silence, rain, wind, city, forest, or electronic.",
     `Requested route: ${req.route ?? "auto"}.`,
     `Requested duration: ${req.durationSec ?? "unspecified"} seconds.`,
+    `Requested ambient: ${req.ambient ?? "auto"}.`,
   ].join("\n");
 }
 

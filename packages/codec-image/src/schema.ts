@@ -3,8 +3,21 @@ import type { ImageRequest, Result } from "@wittgenstein/schemas";
 import { ImageRequestSchema } from "@wittgenstein/schemas";
 
 export const DecoderFamilySchema = z.enum(["llamagen", "seed", "dvae"]);
+export const ImageSceneSpecVersionSchema = z.literal("witt.image.spec/v0.1");
+
+/** Discrete latent codes consumed by the frozen decoder bridge (also used for MiniMax / provider-included latents). */
+export const ImageLatentCodesSchema = z.object({
+  schemaVersion: z.literal("witt.image.latents/v0.1"),
+  family: DecoderFamilySchema,
+  codebook: z.string().min(1),
+  codebookVersion: z.string().min(1),
+  tokenGrid: z.tuple([z.number().int().positive(), z.number().int().positive()]),
+  tokens: z.array(z.number().int().nonnegative()),
+});
+export type ImageLatentCodes = z.infer<typeof ImageLatentCodesSchema>;
 
 export const ImageSceneSpecSchema = z.object({
+  schemaVersion: ImageSceneSpecVersionSchema.default("witt.image.spec/v0.1"),
   intent: z.string().default("placeholder scene"),
   subject: z.string().default("placeholder subject"),
   composition: z
@@ -30,11 +43,27 @@ export const ImageSceneSpecSchema = z.object({
     .object({
       family: DecoderFamilySchema.default("llamagen"),
       codebook: z.string().default("stub-codebook"),
+      codebookVersion: z.string().default("v0"),
       latentResolution: z
         .tuple([z.number().int().positive(), z.number().int().positive()])
         .default([32, 32]),
     })
     .default({}),
+  constraints: z
+    .object({
+      mustHave: z.array(z.string()).default([]),
+      negative: z.array(z.string()).default([]),
+    })
+    .default({}),
+  renderHints: z
+    .object({
+      detailLevel: z.enum(["low", "medium", "high"]).default("medium"),
+      tokenBudget: z.number().int().positive().default(1024),
+      seed: z.number().int().nullable().default(null),
+    })
+    .default({}),
+  /** When set (e.g. MiniMax returns VQ indices), the harness skips the learned adapter and validates these latents. */
+  providerLatents: ImageLatentCodesSchema.optional(),
 });
 
 export type ImageSceneSpec = z.infer<typeof ImageSceneSpecSchema>;

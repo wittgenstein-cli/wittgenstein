@@ -1,16 +1,39 @@
 import type { RenderCtx, RenderResult } from "@wittgenstein/schemas";
 import type { AudioPlan } from "../../schema.js";
+import { recommendAmbient } from "../../ambient-adapter.js";
+import {
+  finalizeAudioArtifact,
+  generateAmbient,
+  mixTracks,
+  synthMusic,
+} from "../../runtime.js";
 
 export async function renderMusicRoute(
-  _plan: AudioPlan,
-  _ctx: RenderCtx,
+  plan: AudioPlan,
+  ctx: RenderCtx,
 ): Promise<RenderResult> {
-  throw createNotImplementedError("codec-audio route: music");
-}
+  const startedAt = Date.now();
+  const durationSec = 8;
+  const ambientCategory =
+    plan.ambient.category === "auto"
+      ? recommendAmbient(`${plan.script} ${plan.music.motif}`).category
+      : plan.ambient.category;
+  const music = synthMusic(durationSec, plan.music.motif);
+  const ambient = generateAmbient(ambientCategory, durationSec, ctx.seed);
+  const result = await finalizeAudioArtifact(
+    ctx,
+    mixTracks([
+      { samples: music, gain: 1 },
+      { samples: ambient, gain: plan.ambient.level * 0.8 },
+    ]),
+    "music",
+  );
 
-function createNotImplementedError(scope: string): Error & { code: string } {
-  return Object.assign(new Error(`NotImplementedError(${scope})`), {
-    name: "NotImplementedError",
-    code: "NOT_IMPLEMENTED",
-  });
+  return {
+    ...result,
+    metadata: {
+      ...result.metadata,
+      durationMs: Date.now() - startedAt,
+    },
+  };
 }

@@ -1,16 +1,10 @@
 import type { RenderCtx, RenderResult } from "@wittgenstein/schemas";
 import type { SensorSignalSpec } from "../schema.js";
+import { renderSignalBundle } from "../render.js";
 
 export async function renderTemperatureSignal(
-  _spec: SensorSignalSpec,
-  _ctx: RenderCtx,
+  spec: SensorSignalSpec,
+  ctx: RenderCtx,
 ): Promise<RenderResult> {
-  throw createNotImplementedError("codec-sensor signal: temperature");
-}
-
-function createNotImplementedError(scope: string): Error & { code: string } {
-  return Object.assign(new Error(`NotImplementedError(${scope})`), {
-    name: "NotImplementedError",
-    code: "NOT_IMPLEMENTED",
-  });
+  return renderSignalBundle(spec, ctx);
 }

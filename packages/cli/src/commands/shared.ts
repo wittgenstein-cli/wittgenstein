@@ -27,7 +27,7 @@ export async function runCodecCommand(
     args,
     cwd: workspaceRoot,
     dryRun: options.dryRun ?? false,
-    ...(options.out ? { outPath: options.out } : {}),
+    ...(options.out ? { outPath: resolve(workspaceRoot, options.out) } : {}),
     ...(options.config ? { configPath: options.config } : {}),
   });
 

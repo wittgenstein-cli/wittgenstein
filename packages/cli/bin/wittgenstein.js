@@ -6,15 +6,16 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const bundled = resolve(here, "../dist/bundle.cjs");
-const devEntry = resolve(here, "../src/cli-main.ts");
+const distEntry = resolve(here, "../dist/index.js");
+const srcEntry = resolve(here, "../src/index.ts");
+const workspaceMarker = resolve(here, "../../../pnpm-workspace.yaml");
 
-const argv = process.argv.slice(2);
-const useBundle = existsSync(bundled);
-const args = useBundle ? [bundled, ...argv] : ["--import", "tsx", devEntry, ...argv];
-
-const result = spawnSync(process.execPath, args, {
-  stdio: "inherit",
-});
+const result = !existsSync(workspaceMarker) && existsSync(distEntry)
+  ? spawnSync(process.execPath, [distEntry, ...process.argv.slice(2)], {
+      stdio: "inherit",
+    })
+  : spawnSync(process.execPath, ["--import", "tsx", srcEntry, ...process.argv.slice(2)], {
+      stdio: "inherit",
+    });
 
 process.exit(result.status ?? 1);

@@ -31,6 +31,7 @@ export const AudioRequestSchema = BaseRequestSchema.extend({
   modality: z.literal("audio"),
   route: z.enum(["speech", "soundscape", "music"]).optional(),
   durationSec: z.number().positive().optional(),
+  ambient: z.string().optional(),
 });
 export type AudioRequest = z.infer<typeof AudioRequestSchema>;
 

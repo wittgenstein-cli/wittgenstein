@@ -25,8 +25,25 @@ Image is intentionally narrow:
 
 `LLM -> structured JSON scene spec -> adapter -> frozen decoder -> PNG`
 
-There is no SVG, HTML, Canvas, or raster-painter fallback **for raster image**. The schedule risk is accepted because the research path is the product path.
+There is no SVG, HTML, Canvas, or raster-painter fallback. The schedule risk is accepted because the research path is the product path.
 
 ## SVG Modality (separate from image)
 
-Vector output uses first-class modality `svg`: harness calls a **grammar-constrained** local engine (Outlines JSON + XML check; see `research/chat2svg-lora/`) which returns JSON IR; `packages/codec-svg` validates and writes `output.svg`. This does **not** satisfy the image neural path.
+Vector output uses first-class modality `svg`: harness calls a **grammar-constrained**
+local engine (Outlines JSON + XML check; see `research/chat2svg-lora/`) which returns
+JSON IR; `packages/codec-svg` validates and writes `output.svg`. This does **not**
+satisfy the image neural path.
+
+## Research Alignment
+
+The image stack is intentionally closest to a discrete-latent framing:
+
+- the LLM emits semantics and structure, not pixels
+- a small adapter translates that structure into decoder-friendly latent codes
+- a frozen decoder reconstructs raster bytes
+
+This keeps the architecture aligned with VQ-style tokenization and “decoder not generator” thinking:
+
+- modality-specific complexity is pushed into the codec layer
+- the expensive model call stays text-first
+- extra multimodal capability is unlocked through local decoders and lightweight adapters

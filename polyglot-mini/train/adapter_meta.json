@@ -1,0 +1,15 @@
+{
+  "dim_emb": 512,
+  "dim_hid1": 256,
+  "dim_hid2": 128,
+  "dim_out": 21,
+  "composition_labels": [
+    "centered",
+    "rule-of-thirds",
+    "diagonal"
+  ],
+  "n_train": 703,
+  "n_val": 78,
+  "best_val_loss": 0.76979,
+  "elapsed_s": 8.7
+}

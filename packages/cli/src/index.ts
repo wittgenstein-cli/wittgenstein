@@ -2,6 +2,7 @@ import { Command } from "commander";
 import { registerInitCommand } from "./commands/init.js";
 import { registerImageCommand } from "./commands/image.js";
 import { registerAudioCommand } from "./commands/audio.js";
+import { registerTtsCommand } from "./commands/tts.js";
 import { registerVideoCommand } from "./commands/video.js";
 import { registerSensorCommand } from "./commands/sensor.js";
 import { registerSvgCommand } from "./commands/svg.js";
@@ -19,6 +20,7 @@ export function createProgram(): Command {
 
   registerInitCommand(program);
   registerImageCommand(program);
+  registerTtsCommand(program);
   registerAudioCommand(program);
   registerVideoCommand(program);
   registerSensorCommand(program);

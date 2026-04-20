@@ -1,4 +1,5 @@
 node_modules/
+.pnpm-store/
 dist/
 packages/cli/npm-publish/
 build/
@@ -35,3 +36,18 @@ artifacts/logs/*
 !artifacts/runs/.gitkeep
 !artifacts/benchmarks/.gitkeep
 !artifacts/logs/.gitkeep
+
+# Local image-adapter training outputs (keep raw data private / large)
+data/image_adapter/train/*.jsonl
+data/image_adapter/artifacts/
+
+python/image_adapter/.venv/
+
+# polyglot-mini: large downloaded caption JSON + local outputs (keep scripts in git)
+polyglot-mini/train/coco/*.json
+polyglot-mini/outputs/
+polyglot-mini/**/__pycache__/
+polyglot-mini/**/*.pyc
+
+# Optional: large trained weights (uncomment if you do not want npz in repo)
+# polyglot-mini/train/adapter.npz

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createProgram } from "../src/index.js";
 
 describe("@wittgenstein/cli", () => {
-  it("registers the locked command surface", () => {
+  it("registers the current command surface", () => {
     const commandNames = createProgram()
       .commands.map((command) => command.name())
       .sort();
@@ -16,6 +16,7 @@ describe("@wittgenstein/cli", () => {
       "init",
       "sensor",
       "svg",
+      "tts",
       "video",
     ]);
   });

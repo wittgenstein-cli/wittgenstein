@@ -18,6 +18,10 @@ body {
   font-family: var(--font-sans), sans-serif;
 }
 
+::selection {
+  background: rgba(17, 17, 17, 0.12);
+}
+
 .font-mono {
   font-family: var(--font-mono), monospace;
 }

@@ -1,19 +1,33 @@
 # Audio Codec
 
-Audio is a multi-route codec with a shared JSON plan and three render routes:
+Audio is the shared runtime for both `tts` and broader audio generation.
 
-- `speech`
-- `soundscape`
-- `music`
+## CLI Surface
+
+- `wittgenstein tts "launch line" --ambient rain --out out.wav`
+- `wittgenstein audio "ambient score" --route music --out out.wav`
 
 ## IR
 
-The model emits a voice or timeline plan, not raw samples.
+The model emits an `AudioPlan`, not raw samples.
 
-## Route Intent
+Core fields:
 
-- `speech`: local XTTS-style HTTP synthesis seam
-- `soundscape`: retrieval plus deterministic layering
-- `music`: symbolic or pattern-led composition into a synth backend
+- `route`: `speech | soundscape | music`
+- `script`: short spoken or guiding text
+- `ambient`: `auto | silence | rain | wind | city | forest | electronic`
+- `timeline` and `music` metadata
 
-The scaffold stubs each route behind its own file so the audio team can land them independently.
+## Render Path
+
+- `speech`: local speech render plus optional ambient layer
+- `soundscape`: deterministic ambient texture render
+- `music`: tiny symbolic synth plus optional ambient layer
+
+## Artifact
+
+The current fast path emits `WAV`.
+
+## Benchmark Case
+
+See `tts-launch` and `audio-music` in `benchmarks/cases.json`.

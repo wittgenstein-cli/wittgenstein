@@ -1,0 +1,16 @@
+{
+  "categories": [
+    "silence",
+    "rain",
+    "wind",
+    "city",
+    "forest",
+    "electronic",
+    "white_noise"
+  ],
+  "dim_emb": 256,
+  "dim_hid": 96,
+  "n_train": 330,
+  "best_val_loss": 0.556131,
+  "elapsed_s": 0.6
+}

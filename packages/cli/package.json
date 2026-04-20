@@ -1,23 +1,53 @@
 {
   "name": "@wittgenstein/cli",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
+  "description": "Hackathon-friendly multimodal CLI for generating traceable image, tts, audio, video, and sensor artifacts.",
+  "keywords": [
+    "multimodal",
+    "cli",
+    "image",
+    "tts",
+    "audio",
+    "sensor",
+    "llm"
+  ],
+  "homepage": "https://github.com/wittgenstein-harness/wittgenstein",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wittgenstein-harness/wittgenstein.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/wittgenstein-harness/wittgenstein/issues"
+  },
+  "license": "Apache-2.0",
   "bin": {
     "wittgenstein": "./bin/wittgenstein.js"
   },
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "typecheck": "tsc -b",
     "lint": "eslint src test --ext .ts",
     "test": "vitest run",
     "build": "tsc",
-    "bundle": "node scripts/bundle.mjs",
-    "release:npm": "node scripts/bundle.mjs && node scripts/prepare-npm-artifact.mjs"
+    "prepack": "pnpm run build",
+    "smoke": "node ./bin/wittgenstein.js doctor"
   },
   "dependencies": {
     "@wittgenstein/core": "workspace:*",

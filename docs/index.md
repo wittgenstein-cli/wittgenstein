@@ -31,9 +31,10 @@
 
 ## Research
 
-- [`research/compression-view-of-llms.md`](research/compression-view-of-llms.md)
-- [`research/frozen-llm-multimodality.md`](research/frozen-llm-multimodality.md)
-- [`research/neural-codec-references.md`](research/neural-codec-references.md)
+- [`research/compression-view-of-llms.md`](research/compression-view-of-llms.md) — LLMs as neural compressors; why structured IR is the right LLM output surface
+- [`research/frozen-llm-multimodality.md`](research/frozen-llm-multimodality.md) — frozen backbone + adapter vs. end-to-end multimodal giants
+- [`research/neural-codec-references.md`](research/neural-codec-references.md) — annotated reference sheet: VQ-VAE → VQGAN → DALL-E 1 → LlamaGen → SEED → FSQ → TiTok
+- [`research/vq-tokens-as-interface.md`](research/vq-tokens-as-interface.md) — why discrete VQ tokens are the right LLM–decoder interface; adapter geometry; TiTok direction
 
 ## Execution
 
@@ -44,6 +45,13 @@
 - [`exec-plans/active/video-day-1.md`](exec-plans/active/video-day-1.md)
 - [`exec-plans/active/sensor-day-1.md`](exec-plans/active/sensor-day-1.md)
 - [`exec-plans/active/site-day-1.md`](exec-plans/active/site-day-1.md)
+
+## Launch & Benchmarks
+
+- [`hackathon-launch.md`](hackathon-launch.md) — launch checklist and demo script
+- [`benchmark-standards.md`](benchmark-standards.md) — quality bar and acceptance criteria
+- [`modality-launch-surface.md`](modality-launch-surface.md) — per-modality external API surface
+- [`implementation-status.md`](implementation-status.md) — what ships now vs what is a typed stub
 
 ## Agent contact text (extended primers)
 

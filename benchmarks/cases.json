@@ -1,0 +1,35 @@
+[
+  {
+    "id": "image-editorial",
+    "modality": "image",
+    "prompt": "An editorial product image in hard side light",
+    "out": "artifacts/benchmarks/image-editorial.png",
+    "dryRun": true
+  },
+  {
+    "id": "tts-launch",
+    "modality": "audio",
+    "route": "speech",
+    "prompt": "A concise hackathon launch voiceover for Wittgenstein",
+    "ambient": "rain",
+    "out": "artifacts/benchmarks/tts-launch.wav",
+    "dryRun": true
+  },
+  {
+    "id": "audio-music",
+    "modality": "audio",
+    "route": "music",
+    "prompt": "A lightweight launch soundtrack with a futuristic pulse",
+    "ambient": "electronic",
+    "out": "artifacts/benchmarks/audio-music.wav",
+    "dryRun": true
+  },
+  {
+    "id": "sensor-ecg",
+    "modality": "sensor",
+    "signal": "ecg",
+    "prompt": "A stable ECG trace with mild baseline noise",
+    "out": "artifacts/benchmarks/sensor-ecg.json",
+    "dryRun": true
+  }
+]

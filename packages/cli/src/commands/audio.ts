@@ -7,6 +7,7 @@ export function registerAudioCommand(program: Command): void {
     .argument("<prompt>", "user prompt")
     .description("Run the audio codec")
     .option("--route <route>", "speech | soundscape | music")
+    .option("--ambient <ambient>", "auto | silence | rain | wind | city | forest | electronic")
     .option("--duration-sec <number>", "requested duration in seconds")
     .option("--out <path>", "output path")
     .option("--seed <number>", "seed")
@@ -15,7 +16,11 @@ export function registerAudioCommand(program: Command): void {
     .action(
       async (
         prompt: string,
-        options: CommandRuntimeOptions & { route?: "speech" | "soundscape" | "music"; durationSec?: string },
+        options: CommandRuntimeOptions & {
+          route?: "speech" | "soundscape" | "music";
+          ambient?: string;
+          durationSec?: string;
+        },
       ) => {
         await runCodecCommand(
           {
@@ -24,6 +29,7 @@ export function registerAudioCommand(program: Command): void {
             out: options.out,
             seed: parseOptionalSeed(options.seed),
             route: options.route,
+            ambient: options.ambient,
             durationSec: options.durationSec
               ? Number.parseFloat(options.durationSec)
               : undefined,
