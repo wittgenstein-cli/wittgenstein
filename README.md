@@ -14,13 +14,6 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)](./polyglot-mini/requirements.txt)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](./CONTRIBUTING.md)
 
-> **🧪 Project status — early-stage, post-hackathon.** Wittgenstein is a prerelease
-> (`v0.1.0-alpha.2`) with a working Python surface, a production-shaped TypeScript
-> harness, and a few intentionally unfinished surfaces clearly flagged with ⚠️ or 🔴 in
-> [`docs/implementation-status.md`](docs/implementation-status.md). Breaking changes are
-> possible before `0.1.0`. **We are actively looking for early adopters and
-> contributors** — see [How to help](#how-to-help) below.
-
 > *Die Grenzen meiner Sprache bedeuten die Grenzen meiner Welt.* — Tractatus 5.6
 
 The limits of a language model's expression are the limits of what a harness built on top
@@ -282,3 +275,11 @@ Questions before you start? [`SUPPORT.md`](SUPPORT.md) shows where to ask what.
 ## License
 
 Apache 2.0. See [`LICENSE`](LICENSE).
+
+> **🧪 Project status — early-stage, post-hackathon.** Wittgenstein is a prerelease
+> (`v0.1.0-alpha.2`) with a working Python surface, a production-shaped TypeScript
+> harness, and a few intentionally unfinished surfaces clearly flagged with ⚠️ or 🔴 in
+> [`docs/implementation-status.md`](docs/implementation-status.md). Breaking changes are
+> possible before `0.1.0`. **We are actively looking for early adopters and
+> contributors** — see [How to help](#how-to-help) below.
+
