@@ -314,6 +314,8 @@ Questions before you start? [`SUPPORT.md`](SUPPORT.md) shows where to ask what.
   <img src="https://contrib.rocks/image?repo=Moapacha/wittgenstein" alt="Image with all contributors" />
 </a>
 
+---
+
 ## Star History
 
 <picture>
