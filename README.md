@@ -209,6 +209,7 @@ cannot offer this; frozen VQ decoding does. See [`docs/reproducibility.md`](docs
 - [`docs/research/compression-view-of-llms.md`](docs/research/compression-view-of-llms.md) — LLMs as neural compressors; why structured IR beats pixel emission
 - [`docs/research/frozen-llm-multimodality.md`](docs/research/frozen-llm-multimodality.md) — frozen backbone + adapter vs. end-to-end multimodal giants
 - [`docs/research/neural-codec-references.md`](docs/research/neural-codec-references.md) — annotated lineage: VQ-VAE → VQGAN → DALL-E 1 → LlamaGen → SEED → TiTok
+- [`docs/research/briefs/README.md`](docs/research/briefs/README.md) — Phase P2 briefs: lineage, stance, horizon, CLI, benchmarks, site reconciliation
 - [`docs/benchmark-standards.md`](docs/benchmark-standards.md) — FID / CLIPScore / WER / UTMOS / discriminative-score protocol
 - [`docs/adrs/`](docs/adrs/) — architecture decision records
 
@@ -304,6 +305,22 @@ Questions before you start? [`SUPPORT.md`](SUPPORT.md) shows where to ask what.
 - No silent fallbacks — failures return structured errors with a manifest
 - Every run is traceable under `artifacts/runs/`
 - Shared contracts live in `@wittgenstein/schemas`; codec packages depend on schemas, not each other
+
+---
+
+## Contributors
+
+<a href="https://github.com/Moapacha/wittgenstein/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Moapacha/wittgenstein" alt="Image with all contributors" />
+</a>
+
+## Star History
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=Moapacha/wittgenstein&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=Moapacha/wittgenstein&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/image?repos=Moapacha/wittgenstein&type=Date" />
+</picture>
 
 ---
 
