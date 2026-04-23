@@ -12,6 +12,8 @@ extend-exclude = [
   "**/*.mp3",
   "**/*.mp4",
   "artifacts/**",
+  "docs/research/www.aquin.app/**",
+  "polyglot-mini/train/data.jsonl",
 ]
 
 [default.extend-words]
@@ -29,4 +31,6 @@ VQVAE = "VQVAE"
 LlamaGen = "LlamaGen"
 MAGVIT = "MAGVIT"
 TiTok = "TiTok"
-
+caf = "caf"
+yhat = "yhat"
+Canva = "Canva"

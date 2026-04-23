@@ -73,6 +73,7 @@ harness — every artifact has a matching run manifest under `artifacts/runs/<ru
 | Modality | Sample | Open |
 |---|---|---|
 | 🖼️ Image | `02-forest` | [`samples/image/02-forest.png`](artifacts/showcase/workflow-examples/samples/image/02-forest.png) |
+| 🖼️ Image 2 | `03-forest-alt` | [`samples/image/03-forest-alt.png`](artifacts/showcase/workflow-examples/samples/image/03-forest-alt.png) |
 | 🎙️ TTS | `02-harness` | [`samples/tts/02-harness.wav`](artifacts/showcase/workflow-examples/samples/tts/02-harness.wav) |
 | 🎵 Music | `01-launch-minimal` | [`samples/music/01-launch-minimal.wav`](artifacts/showcase/workflow-examples/samples/music/01-launch-minimal.wav) |
 | 🌧️ Soundscape | `02-forest-morning` | [`samples/soundscape/02-forest-morning.wav`](artifacts/showcase/workflow-examples/samples/soundscape/02-forest-morning.wav) |
@@ -80,7 +81,6 @@ harness — every artifact has a matching run manifest under `artifacts/runs/<ru
 | 🌡️ Sensor / Temp | `02-greenhouse` | [`samples/sensor-temperature/02-greenhouse.html`](artifacts/showcase/workflow-examples/samples/sensor-temperature/02-greenhouse.html) |
 | 🎛️ Sensor / Gyro | `02-hover` | [`samples/sensor-gyro/02-hover.html`](artifacts/showcase/workflow-examples/samples/sensor-gyro/02-hover.html) |
 
-- **Additional verified image example:** [`samples/image/03-forest-alt.png`](artifacts/showcase/workflow-examples/samples/image/03-forest-alt.png)
 - **Full pack (5 per group, 35 artifacts):** [`artifacts/showcase/workflow-examples/`](artifacts/showcase/workflow-examples/)
 - **Hand-picked samples folder:** [`artifacts/showcase/workflow-examples/samples/`](artifacts/showcase/workflow-examples/samples/)
 - **Rendered gallery:** [`SHOWCASE.md`](SHOWCASE.md)

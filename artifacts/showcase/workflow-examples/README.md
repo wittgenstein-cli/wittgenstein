@@ -29,14 +29,13 @@ plus 7 hand-picked samples mirrored under [`samples/`](samples/).
 | Group | Pick | File to open first |
 |---|---|---|
 | Image | `02-forest` | [`samples/image/02-forest.png`](samples/image/02-forest.png) |
+| Image 2 | `03-forest-alt` | [`samples/image/03-forest-alt.png`](samples/image/03-forest-alt.png) |
 | TTS | `02-harness` | [`samples/tts/02-harness.wav`](samples/tts/02-harness.wav) |
 | Music | `01-launch-minimal` | [`samples/music/01-launch-minimal.wav`](samples/music/01-launch-minimal.wav) |
 | Soundscape | `02-forest-morning` | [`samples/soundscape/02-forest-morning.wav`](samples/soundscape/02-forest-morning.wav) |
 | Sensor ECG | `05-clinical` | [`samples/sensor-ecg/05-clinical.html`](samples/sensor-ecg/05-clinical.html) |
 | Sensor Temperature | `02-greenhouse` | [`samples/sensor-temperature/02-greenhouse.html`](samples/sensor-temperature/02-greenhouse.html) |
 | Sensor Gyro | `02-hover` | [`samples/sensor-gyro/02-hover.html`](samples/sensor-gyro/02-hover.html) |
-
-Additional verified image example: [`samples/image/03-forest-alt.png`](samples/image/03-forest-alt.png).
 
 Machine-readable index: [`summary.json`](summary.json).
 

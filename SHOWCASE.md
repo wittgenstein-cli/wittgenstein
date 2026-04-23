@@ -16,6 +16,7 @@ reproducible bit-for-bit.
 | Modality | Sample | File | Workflow |
 |---|---|---|---|
 | 🖼️ Image | `02-forest` | [`samples/image/02-forest.png`](artifacts/showcase/workflow-examples/samples/image/02-forest.png) | scene spec → adapter → frozen decoder → PNG |
+| 🖼️ Image 2 | `03-forest-alt` | [`samples/image/03-forest-alt.png`](artifacts/showcase/workflow-examples/samples/image/03-forest-alt.png) | scene spec → adapter → frozen decoder → PNG |
 | 🎙️ TTS | `02-harness` | [`samples/tts/02-harness.wav`](artifacts/showcase/workflow-examples/samples/tts/02-harness.wav) | audio codec, speech route |
 | 🎵 Music | `01-launch-minimal` | [`samples/music/01-launch-minimal.wav`](artifacts/showcase/workflow-examples/samples/music/01-launch-minimal.wav) | audio codec, music route |
 | 🌧️ Soundscape | `02-forest-morning` | [`samples/soundscape/02-forest-morning.wav`](artifacts/showcase/workflow-examples/samples/soundscape/02-forest-morning.wav) | audio codec, soundscape route |
@@ -25,9 +26,6 @@ reproducible bit-for-bit.
 
 The samples folder mirrors these picks as a self-contained subset:
 [`artifacts/showcase/workflow-examples/samples/`](artifacts/showcase/workflow-examples/samples/).
-
-Additional verified image example from the same workflow lineage:
-[`samples/image/03-forest-alt.png`](artifacts/showcase/workflow-examples/samples/image/03-forest-alt.png).
 
 ---
 
