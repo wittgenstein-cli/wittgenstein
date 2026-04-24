@@ -37,7 +37,7 @@ Every row has four fields:
 | K-8 | Anthropic *Building Effective Agents* + HumanLayer *12-Factor Agents* as architectural anchors | `docs/references/03_Research_Reference_Dossier.md` | — |
 | K-9 | TypeScript + Node 20 + pnpm workspaces locked as core toolchain | `docs/hard-constraints.md:303` | — |
 | K-10 | 35-artifact showcase frozen as v0.1.0-alpha.2 receipt | `SHOWCASE.md`, `artifacts/showcase/workflow-examples/` | — |
-| K-11 | Master thesis — "modality harness for text-first models" | `THESIS.md` | — |
+| K-11 | Master thesis — "modality harness for text-first LLMs" | `THESIS.md` | — |
 | K-12 | Path C (Chameleon / LlamaGen full retrain) is *not* pursued | `THESIS.md` | ADR-0007 (formal) |
 
 ---

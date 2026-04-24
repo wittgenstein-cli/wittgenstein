@@ -1,12 +1,12 @@
 # Thesis
 
-> **Wittgenstein is the modality harness for text-first models.**
+> **Wittgenstein is the modality harness for text-first LLMs.**
 
 This document is the smallest, most-linked page in the repo. Everything else — architecture, codecs, roadmap, RFCs — is downstream of what is locked here.
 
 ## Master statement (locked)
 
-Wittgenstein is the modality harness for text-first models. It assumes the frontier model is, and will remain, a text-native planner. Modality capability — image, audio, video, sensor, … — is added *outside* the model, through a portable harness layer that the model does not need to be retrained to use.
+Wittgenstein is the modality harness for text-first LLMs. It assumes the frontier model is, and will remain, a text-native planner. Modality capability — image, audio, video, sensor, … — is added *outside* the model, through a portable harness layer that the model does not need to be retrained to use.
 
 ## Extension form (locked wording; phrasing may evolve)
 

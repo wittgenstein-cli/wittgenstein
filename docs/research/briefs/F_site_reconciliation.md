@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-23
 **Author:** research (max.zhuang.yan@gmail.com)
-**Status:** Draft v0.1
+**Status:** Draft v0.1 — **reconciliation direction reversed 2026-04-24** per `docs/v02-alignment-review.md` §2.1. THESIS now reads *"text-first LLMs"* (matching PPT / AGENTS.md / README.md). The one live contradiction is now that the *site tagline* says *"text-first models"*; the site should be updated when RFC-0004 lands. README no longer needs to change.
 **Summary:** `https://wittgenstein.wtf` resolves, but the page returns nothing more than the tagline *"Wittgenstein — The modality harness for text-first models."* There is no architecture section, no showcase, no CLI, no CTA to contradict — which means the public narrative is not drifting from the repo, it is simply absent. The correct move is not reconciliation; it is to stand up a minimal v0.1 site straight out of `docs/THESIS.md` and `SHOWCASE.md`, then treat Brief F as dormant until there is actually prose on the page to diff.
 
 ---

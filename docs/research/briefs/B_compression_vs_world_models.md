@@ -50,7 +50,7 @@ This is the honest tension. Our bet works brilliantly for the cases where the LL
 
 - **Codec protocol**: Stays text-IR forever. v2 extends the IR vocabulary; no latent channel.
 - **Training cost**: Near zero on the planning side — ride frozen LLMs. All capex goes to decoders.
-- **Pitch narrative**: "We are the modality harness for text-first models. Text is already the universal IR." Clean, fundable, immediately demo-able.
+- **Pitch narrative**: "We are the modality harness for text-first LLMs. Text is already the universal IR." Clean, fundable, immediately demo-able.
 - **Cost if wrong**: We top out on the failure modes above and get leapfrogged by any system that couples a world model to a renderer. Our harness becomes legacy glue.
 
 ### (ii) LeCun-pure
