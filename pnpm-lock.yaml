@@ -210,7 +210,7 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       zod:
-        specifier: ^4.3.5
+        specifier: ^4.3.6
         version: 4.3.6
     devDependencies:
       '@eslint/js':
@@ -298,8 +298,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@types/pngjs':
         specifier: ^6.0.5
@@ -311,8 +311,8 @@ importers:
         specifier: workspace:*
         version: link:../schemas
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
 
   packages/codec-image:
     dependencies:
@@ -320,8 +320,8 @@ importers:
         specifier: workspace:*
         version: link:../schemas
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
 
   packages/codec-sensor:
     dependencies:
@@ -329,8 +329,8 @@ importers:
         specifier: workspace:*
         version: link:../schemas
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
 
   packages/codec-svg:
     dependencies:
@@ -338,8 +338,8 @@ importers:
         specifier: workspace:*
         version: link:../schemas
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
 
   packages/codec-video:
     dependencies:
@@ -347,8 +347,8 @@ importers:
         specifier: workspace:*
         version: link:../schemas
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
 
   packages/core:
     dependencies:
@@ -377,16 +377,16 @@ importers:
         specifier: workspace:*
         version: link:../schemas
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
 
   packages/sandbox: {}
 
   packages/schemas:
     dependencies:
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.3.6
+        version: 4.3.6
 
 packages:
 
@@ -3768,9 +3768,6 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
-
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
   zod@4.3.6:
     resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
@@ -7209,7 +7206,5 @@ snapshots:
   zod-validation-error@4.0.2(zod@4.3.6):
     dependencies:
       zod: 4.3.6
-
-  zod@3.25.76: {}
 
   zod@4.3.6: {}

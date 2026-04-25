@@ -23,6 +23,6 @@
     "@wittgenstein/codec-video": "workspace:*",
     "@wittgenstein/schemas": "workspace:*",
     "@wittgenstein/sandbox": "workspace:*",
-    "zod": "^3.23.8"
+    "zod": "^4.3.6"
   }
 }
