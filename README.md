@@ -21,12 +21,14 @@ of it can plan. Wittgenstein's response is to extend what the model can **expres
 files** — schemas, codec IR, latent codes — rather than what it can **say in tokens**. The
 expressive contract lives in code, not prompt copy.
 
-> **🧪 Project status — early-stage, post-hackathon.** Wittgenstein is a prerelease
-> (`v0.1.0-alpha.2`) with a working Python surface, a production-shaped TypeScript
+> **🧪 Project status — early-stage, doctrine-locked.** Wittgenstein is a prerelease
+> (`v0.2.0-alpha.1`) with a working Python surface, a production-shaped TypeScript
 > harness, and a few intentionally unfinished surfaces clearly flagged with ⚠️ or 🔴 in
-> [`docs/implementation-status.md`](docs/implementation-status.md). Breaking changes are
-> possible before `0.1.0`. **We are actively looking for early adopters and
-> contributors** — see [How to help](#how-to-help) below.
+> [`docs/implementation-status.md`](docs/implementation-status.md). The v0.2 cut locks
+> the thesis, vocabulary, and codec protocol (RFC-0001 / ADR-0008); the next phase is
+> the M0 → M5b execution against [`docs/exec-plans/active/codec-v2-port.md`](docs/exec-plans/active/codec-v2-port.md).
+> Breaking changes are still possible before `0.1.0`. **We are actively looking for
+> early adopters and contributors** — see [How to help](#how-to-help) below.
 
 ---
 
@@ -96,11 +98,11 @@ harness — every artifact has a matching run manifest under `artifacts/runs/<ru
   L1 HARNESS          routing · retry · budget · manifest · seed
       │
       ▼
-  L2 IR / CODEC       LLM → structured JSON (scene spec / audio plan / signal spec)
-      │   ▲
+  L2 CODEC / SPEC     LLM → structured JSON Spec (scene spec / audio plan / signal spec)
+      │   ▲           IR is a sum type: Text | Latent | Hybrid (only Text inhabited at v0.2)
       │   └── schema preamble injected before the LLM call
       ▼
-  L3 RENDERER         JSON → real file
+  L3 DECODER          Spec/IR → real file (deterministic; never generative)
       │               image:  frozen VQ decoder     → PNG
       │               audio:  WAV synth + ambient   → WAV / M4A
       │               sensor: operator expand       → CSV + loupe HTML
@@ -108,11 +110,13 @@ harness — every artifact has a matching run manifest under `artifacts/runs/<ru
   L4 ADAPTER          text embedding → latent code alignment (image only; tiny MLP)
       │               (fires between L2 and L3; no adapter for audio/sensor today)
       ▼
-  L5 DIST             CLI · npm · AGENTS.md · artifacts/runs/<id>/manifest.json
+  L5 PACKAGING        CLI · npm · AGENTS.md · artifacts/runs/<id>/manifest.json
 ```
 
-Every layer has a named home in the repo; no layer is "implied in prompts." See
-[`docs/architecture.md`](docs/architecture.md) for the full mapping.
+Every layer has a named home in the repo; no layer is "implied in prompts." Vocabulary
+is locked in [`docs/glossary.md`](docs/glossary.md); the full layer mapping lives in
+[`docs/architecture.md`](docs/architecture.md); the codec contract is
+[`docs/codec-protocol.md`](docs/codec-protocol.md) (ratified by ADR-0008).
 
 ---
 
@@ -270,6 +274,11 @@ Summary: sensor, audio, polyglot-mini image fallback, and the Python image code-
 path all ship today; the TS neural image codec has real scene + adapter + placeholder
 latents and is waiting on a frozen VQ decoder bridge; video is a typed stub.
 
+**What's next.** Doctrine is locked; the active workstream is the Codec Protocol v2 port
+across all modalities, sequenced in [`docs/exec-plans/active/codec-v2-port.md`](docs/exec-plans/active/codec-v2-port.md)
+(M0 image → M1 image refinement → M2 audio → M3 sensor → M4 video stub → M5a/b benchmarks).
+M0 is the first migration target.
+
 Roadmap: [`ROADMAP.md`](ROADMAP.md). Changelog: [`CHANGELOG.md`](CHANGELOG.md).
 Security: [`SECURITY.md`](SECURITY.md).
 
@@ -317,11 +326,25 @@ Questions before you start? [`SUPPORT.md`](SUPPORT.md) shows where to ask what.
 
 ## Locked constraints
 
-- Image has exactly one shipping path: LLM → JSON scene spec → adapter → frozen decoder → PNG
-- No diffusion generators in the core image path
-- No silent fallbacks — failures return structured errors with a manifest
-- Every run is traceable under `artifacts/runs/`
-- Shared contracts live in `@wittgenstein/schemas`; codec packages depend on schemas, not each other
+These are the contracts the v0.2 doctrine lock made non-negotiable. Full pack with
+sources: [`docs/hard-constraints.md`](docs/hard-constraints.md).
+
+- **Five layers, locked vocabulary** — Harness · Codec · Spec · IR · Decoder · Adapter ·
+  Packaging. No alternative naming, no shadow layers. ([`docs/glossary.md`](docs/glossary.md))
+- **Codec Protocol v2 is the only codec contract** — every codec implements
+  `Codec<Req, Art>.produce`. The harness does not branch on modality. (RFC-0001 / ADR-0008)
+- **Decoder ≠ generator** — decoders are deterministic functions of (Spec, seed,
+  lockfile). No diffusion samplers in the core image path. (ADR-0005)
+- **Path C rejected through v0.4** — no Chameleon/LlamaGen-style fused multimodal retrain;
+  the base model stays text-only. (ADR-0007)
+- **IR is a sum type** — `Text | Latent | Hybrid`; only `Text` is inhabited at v0.2. New
+  IR variants require an ADR. (ADR-0011)
+- **Schema at every LLM boundary** — preamble injected, zod-parsed on return, no free-form
+  prose accepted as structured output.
+- **Manifest spine, no exceptions** — every run writes git SHA, lockfile hash, seed, full
+  LLM I/O, and artifact SHA-256 under `artifacts/runs/<id>/`. No silent fallbacks.
+- **Shared contracts live in `@wittgenstein/schemas`** — codec packages depend on schemas,
+  not on each other.
 
 ---
 
