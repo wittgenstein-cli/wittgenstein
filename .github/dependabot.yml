@@ -1,32 +1,109 @@
+# Dependabot policy for Wittgenstein.
+#
+# Philosophy (alpha-stage, pre-1.0):
+#   - Auto-merge what's safe (minor + patch + grouped) via auto-merge-dependabot.yml.
+#   - Open individual PRs for things humans should look at (e.g. @types/* major,
+#     github-actions major).
+#   - DO NOT open weekly PRs for framework majors that we've deliberately deferred
+#     until codec-v2 + M0/M1 land. When we're ready to migrate, we delete the
+#     `ignore` entry — explicit opt-in beats weekly opt-out.
+#   - polyglot-mini is research-grade Python; security patches only, monthly cadence.
+#
+# When to revisit:
+#   - After M1 (image) lands → consider unfreezing typescript major.
+#   - After M5b (benchmarks) → consider unfreezing zod, react/next majors.
+#   - Any time a CVE lands → security updates bypass `ignore` automatically.
+
 version: 2
 updates:
+  # ---------------------------------------------------------------------------
+  # npm — root monorepo (packages/*, apps/*)
+  # ---------------------------------------------------------------------------
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 4
+    open-pull-requests-limit: 5
     labels:
       - "dependencies"
       - "npm"
     commit-message:
       prefix: "chore(deps)"
       include: "scope"
+
     groups:
+      # Dev-only minor+patch — auto-merge eligible.
       npm-dev:
         dependency-type: "development"
         update-types:
           - "minor"
           - "patch"
+        # eslint stack and @types/* have their own groups below.
+        exclude-patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@typescript-eslint/*"
+          - "@types/*"
+
+      # Prod minor+patch — auto-merge eligible.
       npm-prod:
         dependency-type: "production"
         update-types:
           - "minor"
           - "patch"
 
+      # @types/* travel together, low blast radius. Minor+patch only;
+      # majors stay as individual PRs because @types majors track upstream
+      # major releases (Node 24, etc.) and warrant a human glance.
+      types:
+        patterns:
+          - "@types/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # eslint, eslint-config-*, @typescript-eslint/* upgrade in concert.
+      # Ungrouped, they create three PRs that all need to land together
+      # or CI fails.
+      eslint-stack:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@typescript-eslint/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+    ignore:
+      # Framework majors deliberately deferred during alpha (codec-v2 port
+      # + M1 are the priority). Remove a line here when you're ready to
+      # do the migration deliberately.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "zod"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "tailwindcss"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+
+  # ---------------------------------------------------------------------------
+  # pip — polyglot-mini (research-grade Python)
+  # ---------------------------------------------------------------------------
+  # Conservative on purpose. polyglot-mini is the Python rapid-prototype
+  # surface — moving floors here churns notebooks and the CI smoke path
+  # without producing user-facing value. Security advisories will still
+  # bypass the ignore rules.
   - package-ecosystem: "pip"
     directory: "/polyglot-mini"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     open-pull-requests-limit: 1
     labels:
       - "dependencies"
@@ -37,13 +114,19 @@ updates:
     groups:
       pip-runtime:
         update-types:
-          - "minor"
           - "patch"
     ignore:
       - dependency-name: "*"
         update-types:
           - "version-update:semver-major"
+          - "version-update:semver-minor"
 
+  # ---------------------------------------------------------------------------
+  # github-actions
+  # ---------------------------------------------------------------------------
+  # Actions ecosystem is small and well-behaved. Group minor+patch;
+  # majors come as individual PRs (e.g. softprops/action-gh-release v2→v3,
+  # dependabot/fetch-metadata v2→v3 — both safely merged manually).
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
