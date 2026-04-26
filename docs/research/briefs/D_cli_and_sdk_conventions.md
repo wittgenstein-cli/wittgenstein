@@ -156,7 +156,45 @@ Two deliberate divergences from the 2025-class AI CLI template.
 
 - **No `--model` override on modality commands by default.** The chat CLIs all expose `--model` because their primary job is LLM-as-service. Wittgenstein's primary job is a specific codec producing a specific artifact; the model is an internal implementation detail of the harness, and exposing it at the CLI invites users to swap it in ways that invalidate the codec's guarantees. Instead, expose `--provider <name>` (choose which configured provider) and let the provider's config pin the model. Power users who need fine-grained model control can set `WITTGENSTEIN_LLM_MODEL=...` in env; the precedence rule from (2) means that still works. This is a divergence from Gemini / Claude Code / Kimi and it is defensible because we are a harness, not a chat service.
 
-Net: six decisions to write into RFC-0002, two of which are industry-standard, two of which are industry-standard-with-Wittgenstein-shape (config order with provenance-aware `doctor`, noun-first with `--manifest` replay), and two of which are deliberate divergences from chat-CLI framing. The current CLI is about 70% of the way to the bar the 2025-class AI CLIs have set; the remaining 30% is mostly the output contract and the config precedence, and both are cheap to fix. — research, 2026-04-23.
+Net: six decisions to write into RFC-0002, two of which are industry-standard, two of which are industry-standard-with-Wittgenstein-shape (config order with provenance-aware `doctor`, noun-first with `--manifest` replay), and two of which are deliberate divergences from chat-CLI framing. The current CLI is about 70% of the way to the bar the 2025-class AI CLIs have set; the remaining 30% is mostly the output contract and the config precedence, and both are cheap to fix. For M2, the audio-specific CLI / SDK audit below should be read as an addendum rather than a counter-proposal — it refines the route-level UX, not the top-level CLI doctrine. — research, 2026-04-23.
+
+## Audio addendum (M2)
+
+This addendum exists because M2 audio needs a narrower survey than the main CLI doctrine brief. The top-level question of Brief D is “what should `wittgenstein` look like?” The M2 question is “what should an audio route inherit from existing speech / transcription / hosted-audio tools, and what should it deliberately refuse?”
+
+The current internal surface matters here. Today `packages/cli/src/commands/audio.ts` still exposes `wittgenstein audio <prompt> [--route speech|soundscape|music] [--ambient ...] [--duration-sec ...]`, and `docs/codecs/audio.md` already frames that `--route` flag as a legacy compatibility path headed for soft-warn deprecation at M2. So the useful prior art is not "what would a greenfield audio CLI look like?" but "which external conventions help us migrate from a route-first flag surface to an intent-first codec-owned surface without breaking reproducibility?"
+
+### Piper
+
+`piper` is the cleanest local-TTS CLI in the set because it is brutally explicit: the docs show text on **stdin**, `--model /path/to/voice.onnx`, and `--output_file output.wav` as the primary shape, with `--speaker` layered on for multi-speaker models. It does not pretend to be a chat tool or a hosted SDK. The important transferable conventions are that synthesis is file-first, flags are narrow, and the output artifact is the primary unit. What does **not** transfer is Piper's willingness to let the voice/model choice dominate the user-facing surface. In Wittgenstein, the user asks for a speech artifact; the specific decoder family sits underneath the codec boundary.
+
+### Coqui TTS / `tts`
+
+Coqui's `tts` surface shows the opposite extreme: many flags, many synthesis modes, several voice / speaker / language switches, and a surface that is great for research but noisy for a harness. Even the core inference docs emphasize API calls like `tts.tts_to_file(...)`, `voice_conversion_to_file(...)`, and `tts_with_vc_to_file(...)` rather than one tiny stable CLI contract. What transfers is the separation between “synthesis request” and “speaker / model configuration,” plus the ability to write directly to a file path. What does not transfer is exposing the full model zoo or a long tail of decoder-specific flags on the primary modality command.
+
+### Whisper / speech tooling CLIs
+
+Whisper-style CLIs are useful here not because Wittgenstein is a transcription tool, but because they establish good audio-I/O habits. OpenAI Whisper's CLI takes positional audio files plus explicit flags like `--model`, `--language`, and `--task translate`, and it requires `ffmpeg` on the host. `whisper.cpp` goes even further toward file-tool explicitness: build `whisper-cli`, point `-m` at a model file, point `-f` at an audio file, optionally add VAD flags, and get a deterministic file-driven transcription path. The part worth borrowing is the contract that audio tooling should say exactly what file it consumed and what file it emitted. The part to avoid is turning every audio modality command into a generic speech-lab interface with dozens of transcription-oriented toggles.
+
+### OpenAI Audio API
+
+The OpenAI Audio API represents the hosted-SDK shape: programmatic, model-first, and explicit about whether output is a stream or a file. The text-to-speech guide shows both `audio.speech.create(...)` and `with_streaming_response.create(...)`; the default response format is `mp3`, but `wav`, `opus`, `aac`, `flac`, and `pcm` are all explicit options. The speech-to-text guide sits on the same principle: file inputs are explicit, and realtime/streaming are not ambiguous “maybe stdout, maybe callback” side-effects. Its useful lesson for Wittgenstein is not “copy the model flag,” but “make structured output and binary output mutually explicit.” When a route produces a file, the caller should never have to infer whether stdout contains bytes, JSON, or logs. The hosted API also normalizes the idea that voice/model selection is configuration, not usually the first user concern.
+
+### ElevenLabs SDK / CLI patterns
+
+ElevenLabs is the strongest reminder that premium speech UX often grows around hosted features that are structurally incompatible with our doctrine: mutable voices, account-scoped assets, cloud-side caching, and nontrivial vendor state. The official quickstart expects `ELEVENLABS_API_KEY` in environment or app config, and the SDK exposes both `convert` (file-oriented) and `stream` (low-latency) paths. That makes it bad architectural prior art for the core path, but still useful negative prior art. The main thing to borrow is the user expectation that “speech” is a route with explicit output control and predictable latency reporting. The things to reject are vendor-bound voice management and any CLI that makes account state the hidden center of the workflow.
+
+### Keep / change / borrow table
+
+| Tool / family                  | Keep                                                                | Change                                                                  | Borrow                                                                        |
+| ------------------------------ | ------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Piper                          | File-first local synthesis and explicit output path                 | Do not expose decoder identity as the primary user surface              | Minimal local-TTS CLI posture for the `speech` route                          |
+| Coqui TTS                      | Separation between synthesis request and decoder config             | Avoid surfacing research-zoo flags on `wittgenstein tts`                | Keep decoder choice in config / provider layer, not modality command          |
+| Whisper-style CLIs             | Explicit audio input/output contracts and machine-readable mode     | Do not import transcription-specific option sprawl                      | Strong binary-vs-JSON output discipline for audio tooling                     |
+| OpenAI Audio API               | Explicit stream/file distinction and structured result shape        | Do not expose model-first semantics as the default UX                   | Clear stdout contract and route-level latency / metadata reporting            |
+| ElevenLabs-style hosted speech | User expectation of polished speech output and explicit file result | Reject account-centric / mutable cloud asset workflows in the core path | Negative prior art for what the on-device deterministic route must not become |
+
+Net for M2: keep `wittgenstein audio <prompt>` as the public noun-first entrypoint, keep explicit file-oriented flags like `--out` and `--duration-sec`, retain `--ambient` as a codec-level intent hint, and treat `--route` as a compatibility shim whose removal is governed by Brief J's deprecation contract rather than by aesthetics.
 
 ## References
 
@@ -171,4 +209,12 @@ Net: six decisions to write into RFC-0002, two of which are industry-standard, t
 - Moonshot AI (2025). "Kimi Code CLI." https://github.com/MoonshotAI/kimi-cli and https://moonshotai.github.io/kimi-cli/en/reference/kimi-command.html
 - npm / npm Inc. (2024). "npm-config." https://docs.npmjs.com/cli/v11/using-npm/config/
 - OpenAI (2025). "Codex CLI Reference." https://developers.openai.com/codex/cli/reference ; "Agents SDK." https://openai.github.io/openai-agents-python/
+- OpenAI (2026). "Text to speech." https://developers.openai.com/api/docs/guides/text-to-speech
+- OpenAI (2026). "Speech to text." https://developers.openai.com/api/docs/guides/speech-to-text
+- Piper docs. "Usage." https://tderflinger.github.io/piper-docs/guides/usage/
+- Coqui TTS docs. "Synthesizing speech." https://coqui-tts.readthedocs.io/en/latest/inference.html
+- OpenAI Whisper repo. "Command-line usage." https://github.com/openai/whisper
+- whisper.cpp repo. "Quick start / whisper-cli." https://github.com/ggml-org/whisper.cpp
+- ElevenLabs docs. "Text to speech quickstart." https://elevenlabs.io/docs/eleven-api/guides/cookbooks/text-to-speech
+- ElevenLabs docs. "Streaming text to speech." https://elevenlabs.io/docs/eleven-api/guides/how-to/text-to-speech/streaming
 - Wittgenstein repo (2026). `packages/cli/src/commands/*.ts`, `packages/cli/README.md`, `docs/quickstart.md`.
