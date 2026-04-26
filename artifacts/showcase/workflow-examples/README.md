@@ -3,10 +3,18 @@
 35 real artifacts produced through the Wittgenstein harness — 5 per modality group,
 plus 7 hand-picked samples mirrored under [`samples/`](samples/).
 
+This directory is the preserved `v0.1.0-alpha.1` hackathon snapshot: the first bundled
+artifact pack we used to show that Wittgenstein could emit real files across image,
+audio, and sensor routes.
+
 > **This is a reference pack.** It was generated using curated local JSON responses so
 > the runs stay reproducible without hitting an external LLM, but every run still writes
 > a full manifest under `artifacts/runs/<run-id>/manifest.json` (git SHA, seed, LLM
 > input/output, artifact SHA-256). You can regenerate any of these bit-for-bit.
+>
+> Read it as a historical receipt, not as a statement that every file already reflects
+> the exact post-lock `v0.2` implementation surface. As Codec v2 ports and decoder
+> contracts land, newer curated packs will replace it as the active baseline.
 >
 > For a nicer rendered gallery, see the top-level [`SHOWCASE.md`](../../../SHOWCASE.md).
 
@@ -14,28 +22,28 @@ plus 7 hand-picked samples mirrored under [`samples/`](samples/).
 
 ## Groups (5 artifacts each)
 
-| Group | Folder | Workflow |
-|---|---|---|
-| `image` | [`image/`](image/) | scene spec → adapter → frozen decoder → PNG |
-| `tts` | [`tts/`](tts/) | audio codec, speech route |
-| `music` | [`music/`](music/) | audio codec, music route |
-| `soundscape` | [`soundscape/`](soundscape/) | audio codec, soundscape route |
-| `sensor-ecg` | [`sensor/ecg/`](sensor/ecg/) | operator spec → JSON + CSV + Loupe HTML |
-| `sensor-temperature` | [`sensor/temperature/`](sensor/temperature/) | operator spec → JSON + CSV + Loupe HTML |
-| `sensor-gyro` | [`sensor/gyro/`](sensor/gyro/) | operator spec → JSON + CSV + Loupe HTML |
+| Group                | Folder                                       | Workflow                                    |
+| -------------------- | -------------------------------------------- | ------------------------------------------- |
+| `image`              | [`image/`](image/)                           | scene spec → adapter → frozen decoder → PNG |
+| `tts`                | [`tts/`](tts/)                               | audio codec, speech route                   |
+| `music`              | [`music/`](music/)                           | audio codec, music route                    |
+| `soundscape`         | [`soundscape/`](soundscape/)                 | audio codec, soundscape route               |
+| `sensor-ecg`         | [`sensor/ecg/`](sensor/ecg/)                 | operator spec → JSON + CSV + Loupe HTML     |
+| `sensor-temperature` | [`sensor/temperature/`](sensor/temperature/) | operator spec → JSON + CSV + Loupe HTML     |
+| `sensor-gyro`        | [`sensor/gyro/`](sensor/gyro/)               | operator spec → JSON + CSV + Loupe HTML     |
 
 ## Sample picks (one per group, opened directly from [`samples/`](samples/))
 
-| Group | Pick | File to open first |
-|---|---|---|
-| Image | `02-forest` | [`samples/image/02-forest.png`](samples/image/02-forest.png) |
-| Image 2 | `03-forest-alt` | [`samples/image/03-forest-alt.png`](samples/image/03-forest-alt.png) |
-| TTS | `02-harness` | [`samples/tts/02-harness.wav`](samples/tts/02-harness.wav) |
-| Music | `01-launch-minimal` | [`samples/music/01-launch-minimal.wav`](samples/music/01-launch-minimal.wav) |
-| Soundscape | `02-forest-morning` | [`samples/soundscape/02-forest-morning.wav`](samples/soundscape/02-forest-morning.wav) |
-| Sensor ECG | `05-clinical` | [`samples/sensor-ecg/05-clinical.html`](samples/sensor-ecg/05-clinical.html) |
-| Sensor Temperature | `02-greenhouse` | [`samples/sensor-temperature/02-greenhouse.html`](samples/sensor-temperature/02-greenhouse.html) |
-| Sensor Gyro | `02-hover` | [`samples/sensor-gyro/02-hover.html`](samples/sensor-gyro/02-hover.html) |
+| Group              | Pick                | File to open first                                                                               |
+| ------------------ | ------------------- | ------------------------------------------------------------------------------------------------ |
+| Image              | `02-forest`         | [`samples/image/02-forest.png`](samples/image/02-forest.png)                                     |
+| Image 2            | `03-forest-alt`     | [`samples/image/03-forest-alt.png`](samples/image/03-forest-alt.png)                             |
+| TTS                | `02-harness`        | [`samples/tts/02-harness.wav`](samples/tts/02-harness.wav)                                       |
+| Music              | `01-launch-minimal` | [`samples/music/01-launch-minimal.wav`](samples/music/01-launch-minimal.wav)                     |
+| Soundscape         | `02-forest-morning` | [`samples/soundscape/02-forest-morning.wav`](samples/soundscape/02-forest-morning.wav)           |
+| Sensor ECG         | `05-clinical`       | [`samples/sensor-ecg/05-clinical.html`](samples/sensor-ecg/05-clinical.html)                     |
+| Sensor Temperature | `02-greenhouse`     | [`samples/sensor-temperature/02-greenhouse.html`](samples/sensor-temperature/02-greenhouse.html) |
+| Sensor Gyro        | `02-hover`          | [`samples/sensor-gyro/02-hover.html`](samples/sensor-gyro/02-hover.html)                         |
 
 Machine-readable index: [`summary.json`](summary.json).
 
