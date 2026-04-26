@@ -6,7 +6,7 @@ The current doctrine surface for v0.2. Read top-to-bottom for an onboarding pass
 
 Read these two files before any task:
 
-- [`.claude/AGENT_PROMPT.md`](../.claude/AGENT_PROMPT.md) — orientation (what the project is, how to find information, exact working discipline)
+- [`../PROMPT.md`](../PROMPT.md) — public agent handoff prompt (what the project is, how to find information, exact working discipline)
 - [`engineering-discipline.md`](engineering-discipline.md) — working standards (code style, robustness, testing, reporting, constraints)
 
 ## Then understand the thesis and governance
@@ -21,6 +21,7 @@ Read these two files before any task:
 ## Architecture and constraints
 
 - [`architecture.md`](architecture.md) — L1–L5 layered architecture
+- [`archive-policy.md`](archive-policy.md) — when to refresh, reclassify, archive, or delete old docs surfaces
 - [`build-philosophy.md`](build-philosophy.md)
 - [`hard-constraints.md`](hard-constraints.md) — non-negotiables (no silent fallback, decoder ≠ generator, etc.)
 - [`codec-protocol.md`](codec-protocol.md) — v0.1 protocol surface (v2 lives in RFC-0001)
@@ -52,6 +53,11 @@ Read these two files before any task:
 
 ## Long-form research notes (predate the briefs)
 
+- [`research/program.md`](research/program.md) — top-level research architecture / program map; how tracks, notes, briefs, RFCs, ADRs, and execution fit together
+- [`research/README.md`](research/README.md) — what counts as a research note, how notes differ from briefs, and how research promotes into decisions
+- [`research/research-system-audit-2026-04.md`](research/research-system-audit-2026-04.md) — audit memo on research surfaces, hypothesis-vs-decision drift, and branch hygiene recommendations
+- [`research/current-stage-scope-2026-04.md`](research/current-stage-scope-2026-04.md) — current-stage scope map; what this research round is and is not trying to cover
+- [`research/google-stack-object-study-2026-04.md`](research/google-stack-object-study-2026-04.md) — one object study inside that broader scope
 - [`research/compression-view-of-llms.md`](research/compression-view-of-llms.md)
 - [`research/frozen-llm-multimodality.md`](research/frozen-llm-multimodality.md)
 - [`research/neural-codec-references.md`](research/neural-codec-references.md)
@@ -77,6 +83,7 @@ Read these two files before any task:
 - [`exec-plans/README.md`](exec-plans/README.md)
 - [`exec-plans/active/codec-v2-port.md`](exec-plans/active/codec-v2-port.md) — the live P6 plan (M0 → M5b)
 - [`exec-plans/archive/README.md`](exec-plans/archive/README.md) — historical day-1 fragments
+- [`archive/README.md`](archive/README.md) — general docs archive (use only when a surface-local archive is not the better fit)
 - [`reserve-paths.md`](reserve-paths.md) — design alternatives considered for a phase and shelved (📦 sealed, not on any active plan)
 
 ## Agent guides (prompt-ready execution briefs)
