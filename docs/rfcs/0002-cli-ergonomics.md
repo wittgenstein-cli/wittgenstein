@@ -2,9 +2,9 @@
 
 **Date:** 2026-04-25
 **Author:** engineering (max.zhuang.yan@gmail.com)
-**Status:** 🟡 Draft v0.1
+**Status:** 🟢 Accepted
 **Feeds from:** Brief D (`docs/research/briefs/D_cli_and_sdk_conventions.md`)
-**Ratified by:** ADR-0009 (pending)
+**Ratified by:** ADR-0009
 
 **Summary:** Close the 30% gap Brief D identified between Wittgenstein's CLI and the 2025-class AI CLI template — `--json`/NDJSON on stdout with logs on stderr, documented flag-over-env-over-file precedence with provenance-aware `doctor`, a one-liner `npx @wittgenstein/cli doctor` install — while deliberately diverging on two axes (no primary REPL, no user-facing `--model` on modality commands) that would turn a batch harness into a chat surface.
 
@@ -122,7 +122,21 @@ The provenance column (`source`) is the novel piece. It answers "why is my run u
 When `--json` is set (or when stdout is not a TTY), a modality command emits one NDJSON record per produced artifact. Schema:
 
 ```json
-{"schemaVersion":2,"runId":"01HZX...","modality":"image","route":"default","seed":7,"latencyMs":4182,"priceUsd":0.0032,"quality":{"fid":null,"clip":0.31},"manifestPath":"artifacts/runs/01HZX.../manifest.json","artifactPath":"artifacts/out/01HZX....png","artifactSha256":"8a2c...","gitSha":"7897062","timestamp":"2026-04-25T14:22:01Z"}
+{
+  "schemaVersion": 2,
+  "runId": "01HZX...",
+  "modality": "image",
+  "route": "default",
+  "seed": 7,
+  "latencyMs": 4182,
+  "priceUsd": 0.0032,
+  "quality": { "fid": null, "clip": 0.31 },
+  "manifestPath": "artifacts/runs/01HZX.../manifest.json",
+  "artifactPath": "artifacts/out/01HZX....png",
+  "artifactSha256": "8a2c...",
+  "gitSha": "7897062",
+  "timestamp": "2026-04-25T14:22:01Z"
+}
 ```
 
 `schemaVersion: 2` is explicit and stable; future changes bump the integer and add a compatibility shim rather than mutating field meanings. NDJSON rather than a JSON array because multi-phase runs (e.g. video codec with progressive frames) emit incrementally, and piping consumers (`jq -c`, `datasette insert`) handle NDJSON natively. `--output -` writes the binary artifact to stdout and becomes mutually exclusive with `--json`; the CLI errors loudly if both are set. This is the ffmpeg convention and Brief D names it as the right resolution to the binary-vs-JSON-on-stdout conflict.
@@ -179,5 +193,5 @@ Concrete events that would force a revision or full withdrawal of this RFC.
 
 ## Decision record
 
-- **Accepted by:** ADR-0009 (pending)
+- **Accepted by:** ADR-0009
 - **Superseded by:** —
