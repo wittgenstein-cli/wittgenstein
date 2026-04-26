@@ -37,13 +37,13 @@ That subtlety matters. M2 is not “make audio elegant.” M2 is “port audio t
 
 The relevant prior art is not “audio framework” specific. It is any production system that multiplexes a small set of route-specific handlers inside one typed resource boundary.
 
-**Express `Router` / Hono sub-apps** contribute the useful pattern: a flat dispatch surface with tiny handlers and shared middleware that is narrow enough to reason about locally. The transferable idea for M2 is not nested routers themselves, but a **codec-owned route table** where each route declares only `id + match + decode/package-local behavior`, and shared pre/post work lives outside the route file. This matches `Route<Req>` in `packages/schemas/src/codec/v2/codec.ts` almost exactly.
+**Express `Router` / Hono sub-apps** contribute the useful pattern: a flat dispatch surface with tiny handlers and shared middleware that is narrow enough to reason about locally. Express explicitly frames `express.Router()` as a mini-app, while Hono documents route grouping through a child `Hono` instance mounted with `app.route(path, app)`. The transferable idea for M2 is not nested routers themselves, but a **codec-owned route table** where each route declares only `id + match + decode/package-local behavior`, and shared pre/post work lives outside the route file. This matches `Route<Req>` in `packages/schemas/src/codec/v2/codec.ts` almost exactly.
 
-**Fastify nested plugins** are only partially relevant. Their strength is explicit encapsulation and decoration scoping, but their plugin lifecycle is too heavyweight for three route variants that all live inside one codec package. The insight worth copying is “route-local registration can be isolated,” not the plugin graph itself.
+**Fastify nested plugins** are only partially relevant. Their strength is explicit encapsulation and decoration scoping: `register()` creates a new scope, descendants inherit from ancestors, and the docs describe the resulting DAG plus route prefixing. But that plugin lifecycle is too heavyweight for three route variants that all live inside one codec package. The insight worth copying is “route-local registration can be isolated,” not the plugin graph itself.
 
-**tRPC sub-routers** are the cleanest fit for the _shape_ of the problem: one top-level surface, several typed sub-surfaces, shared context, and explicit composition. What transfers is the discipline that each route should own its input narrowing and output shape declaratively. What does **not** transfer is a proliferation of sub-router files or route-local middleware stacks. Audio does not need an RPC tree.
+**tRPC sub-routers** are the cleanest fit for the _shape_ of the problem: one top-level surface, several typed sub-surfaces, shared context, and explicit composition. The docs show both `router({...})` and inline sub-routers, and insist that the `t` root be initialized exactly once per application. What transfers is the discipline that each route should own its input narrowing and output shape declaratively. What does **not** transfer is a proliferation of sub-router files or route-local middleware stacks. Audio does not need an RPC tree.
 
-**Apollo subgraphs** are the wrong abstraction entirely. Their value comes from distributed ownership and federation. `codec-audio` has three sibling routes in one package; importing federation concepts would only blur the seam.
+**Apollo subgraphs** are the wrong abstraction entirely. Their value comes from distributed ownership and federation under a subgraph specification, not from keeping three sibling handlers tidy inside one package. `codec-audio` has no cross-team ownership boundary, so importing federation concepts would only blur the seam.
 
 **Verdict for Q1:** adopt the **flat route-table + thin route objects** pattern; borrow selective compositional discipline from tRPC and Hono; reject Fastify-style nested plugin lifecycle and reject Apollo-style composition.
 
@@ -175,3 +175,8 @@ Net: M2 should be a **small-shape port**, not a local framework invention. The e
 - Wittgenstein repo (2026). `packages/codec-audio/src/codec.ts`, `packages/codec-audio/src/routes/{speech,soundscape,music}/index.ts`, `packages/codec-audio/src/runtime.ts`, `docs/agent-guides/audio-port.md`, `docs/exec-plans/active/codec-v2-port.md`.
 - Brief H — `docs/research/briefs/H_codec_engineering_prior_art.md`
 - RFC-0001 — `docs/rfcs/0001-codec-protocol-v2.md`
+- Express routing — https://expressjs.com/en/guide/routing.html
+- Hono routing / grouping — https://hono.dev/docs/api/routing and https://www.honojs.com/docs/api/hono
+- Fastify plugins / encapsulation — https://fastify.dev/docs/latest/Reference/Plugins/ and https://fastify.dev/docs/latest/Reference/Encapsulation/
+- tRPC routers — https://trpc.io/docs/server/routers
+- Apollo Federation subgraph specification — https://www.apollographql.com/docs/graphos/schema-design/federated-schemas/reference/subgraph-spec
