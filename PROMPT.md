@@ -5,6 +5,11 @@
 > agent at it — for the smallest correct briefing to act in this repo.
 > [`AGENTS.md`](AGENTS.md) is the longer reference primer; this is the
 > imperative version.
+>
+> **Important.** Do not assume an AI tool or agent will discover this file on
+> its own. If you are handing work to an AI, an agent, or an agent
+> contributor, explicitly give it this file and treat it as required input,
+> not optional background context.
 
 ## You are
 
