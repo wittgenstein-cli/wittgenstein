@@ -51,7 +51,7 @@ Read [`docs/architecture.md`](docs/architecture.md) before changing structure.
 
 <!-- prettier-ignore-start -->
 **Start here for any task:**
-0. [`.claude/AGENT_PROMPT.md`](.claude/AGENT_PROMPT.md) — what you are, where to find answers, how to work here
+0. [`PROMPT.md`](PROMPT.md) — public agent handoff prompt: what you are, where to find answers, how to work here
 1. [`docs/engineering-discipline.md`](docs/engineering-discipline.md) — code style, robustness, testing, reporting standards
 
 **Then context:**
@@ -120,7 +120,7 @@ The RFC-0003 alternatives (Loom / Transducer / Score / Handoff) were rejected. U
 - `docs/exec-plans/active/` — live execution plans (M0 → M5b lives here)
 - `docs/agent-guides/` — per-port execution briefs (audio, sensor, image-to-audio)
 - `docs/rfcs/` and `docs/adrs/` — engineering decisions and ratified records
-- `docs/research/briefs/` — four-station research briefs (A–G)
+- `docs/research/briefs/` — four-station research briefs (A–H)
 
 ### Read Order — v0.2 supplement
 
@@ -145,4 +145,4 @@ Then return to the original Read Order above for engineering discipline, codec p
 
 ### Claude-specific style and working rules
 
-This file is vendor-neutral. The Claude Code-specific working-rules / smallest-diff / reporting-format prompt lives in [`.claude/AGENT_PROMPT.md`](.claude/AGENT_PROMPT.md) — read it after this file if you are running under Claude Code.
+This file is vendor-neutral. `PROMPT.md` is the public, repo-tracked agent entrypoint. If you are running under Claude Code and a local `.claude/AGENT_PROMPT.md` overlay exists in your checkout, layer it on top for Claude-specific working rules and reporting preferences.
