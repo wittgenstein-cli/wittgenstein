@@ -19,6 +19,8 @@ The current `codec-audio` shape is already more disciplined than the plan's firs
 - `packages/codec-audio/src/codec.ts` is still v0.1-style (`WittgensteinCodec.render(parsed, ctx)`), but it delegates to three small route implementations rather than a single giant renderer.
 - `packages/codec-audio/src/routes/{speech,soundscape,music}/index.ts` are each short, but they still repeat five responsibilities: timing, ambient recommendation, route-specific render, artifact finalization, and metadata patching.
 - `packages/codec-audio/src/runtime.ts` already centralizes the true shared render primitives: `finalizeAudioArtifact`, `generateAmbient`, `mixTracks`, `renderMacSpeech`, `synthSpeech`, `synthMusic`.
+- `packages/core/src/codecs/audio.ts` is already just a registry hook, which means "make the core shim thin" is no longer a meaningful M2 engineering win. The real work sits inside `codec-audio`, not in `core`.
+- `packages/cli/src/commands/audio.ts` still exposes `--route`, so any deprecation story has to account for a live downstream caller rather than pretending request-side routing is only a schema concern.
 - `docs/agent-guides/audio-port.md` still talks about collapsing “~80-line copy-paste,” which is no longer literally true. The engineering problem has become more subtle: shared logic exists, but not all of it deserves a class boundary.
 
 That subtlety matters. M2 is not “make audio elegant.” M2 is “port audio to Codec v2 without baking route-specific choices into shared doctrine.” This brief answers five engineering questions needed before code execution:
@@ -128,7 +130,7 @@ The deprecation needs to be machine-copyable and stable. Proposed warning text:
 
 Preconditions for actual removal:
 
-1. CLI help and examples no longer advertise `--route` as the primary interface.
+1. `packages/cli/src/commands/audio.ts` no longer advertises `--route` as the primary interface, and the remaining compatibility path is documented as transitional only.
 2. `docs/codecs/audio.md` and `docs/agent-guides/audio-port.md` both describe route selection as codec-internal.
 3. No tests, examples, or apps under `apps/` depend on request-side route selection as the only way to express intent.
 4. The codec has a stable default intent mapping for speech / soundscape / music so removing the field does not silently collapse user intent.

@@ -162,6 +162,8 @@ Net: six decisions to write into RFC-0002, two of which are industry-standard, t
 
 This addendum exists because M2 audio needs a narrower survey than the main CLI doctrine brief. The top-level question of Brief D is “what should `wittgenstein` look like?” The M2 question is “what should an audio route inherit from existing speech / transcription / hosted-audio tools, and what should it deliberately refuse?”
 
+The current internal surface matters here. Today `packages/cli/src/commands/audio.ts` still exposes `wittgenstein audio <prompt> [--route speech|soundscape|music] [--ambient ...] [--duration-sec ...]`, and `docs/codecs/audio.md` already frames that `--route` flag as a legacy compatibility path headed for soft-warn deprecation at M2. So the useful prior art is not "what would a greenfield audio CLI look like?" but "which external conventions help us migrate from a route-first flag surface to an intent-first codec-owned surface without breaking reproducibility?"
+
 ### Piper
 
 `piper` is the cleanest local-TTS CLI in the set because it is brutally explicit: the docs show text on **stdin**, `--model /path/to/voice.onnx`, and `--output_file output.wav` as the primary shape, with `--speaker` layered on for multi-speaker models. It does not pretend to be a chat tool or a hosted SDK. The important transferable conventions are that synthesis is file-first, flags are narrow, and the output artifact is the primary unit. What does **not** transfer is Piper's willingness to let the voice/model choice dominate the user-facing surface. In Wittgenstein, the user asks for a speech artifact; the specific decoder family sits underneath the codec boundary.
@@ -191,6 +193,8 @@ ElevenLabs is the strongest reminder that premium speech UX often grows around h
 | Whisper-style CLIs             | Explicit audio input/output contracts and machine-readable mode     | Do not import transcription-specific option sprawl                      | Strong binary-vs-JSON output discipline for audio tooling                     |
 | OpenAI Audio API               | Explicit stream/file distinction and structured result shape        | Do not expose model-first semantics as the default UX                   | Clear stdout contract and route-level latency / metadata reporting            |
 | ElevenLabs-style hosted speech | User expectation of polished speech output and explicit file result | Reject account-centric / mutable cloud asset workflows in the core path | Negative prior art for what the on-device deterministic route must not become |
+
+Net for M2: keep `wittgenstein audio <prompt>` as the public noun-first entrypoint, keep explicit file-oriented flags like `--out` and `--duration-sec`, retain `--ambient` as a codec-level intent hint, and treat `--route` as a compatibility shim whose removal is governed by Brief J's deprecation contract rather than by aesthetics.
 
 ## References
 
