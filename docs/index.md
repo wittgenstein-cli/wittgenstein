@@ -21,6 +21,7 @@ Read these two files before any task:
 ## Architecture and constraints
 
 - [`architecture.md`](architecture.md) — L1–L5 layered architecture
+- [`archive-policy.md`](archive-policy.md) — when to refresh, reclassify, archive, or delete old docs surfaces
 - [`build-philosophy.md`](build-philosophy.md)
 - [`hard-constraints.md`](hard-constraints.md) — non-negotiables (no silent fallback, decoder ≠ generator, etc.)
 - [`codec-protocol.md`](codec-protocol.md) — v0.1 protocol surface (v2 lives in RFC-0001)
@@ -82,6 +83,7 @@ Read these two files before any task:
 - [`exec-plans/README.md`](exec-plans/README.md)
 - [`exec-plans/active/codec-v2-port.md`](exec-plans/active/codec-v2-port.md) — the live P6 plan (M0 → M5b)
 - [`exec-plans/archive/README.md`](exec-plans/archive/README.md) — historical day-1 fragments
+- [`archive/README.md`](archive/README.md) — general docs archive (use only when a surface-local archive is not the better fit)
 - [`reserve-paths.md`](reserve-paths.md) — design alternatives considered for a phase and shelved (📦 sealed, not on any active plan)
 
 ## Agent guides (prompt-ready execution briefs)

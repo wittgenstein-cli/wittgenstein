@@ -165,6 +165,9 @@ The stronger need is to make their roles explicit so they are not mistaken for:
 Promotion can happen later, but only if one of these theory/reference notes starts
 driving a concrete RFC or brief.
 
+Repo-wide follow-through for those choices should use [`docs/archive-policy.md`](../archive-policy.md),
+which distinguishes refresh / reclassify / archive / delete.
+
 ---
 
 ## 4. Non-Google object shortlist — balance correction
