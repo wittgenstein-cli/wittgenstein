@@ -1,5 +1,13 @@
 # Extending Wittgenstein
 
+> **Surface:** Mixed-surface extension guide.
+> This page combines TypeScript production-harness extension guidance with legacy /
+> prototype-oriented `polyglot-mini` extension guidance. Use it as a broad extension
+> reference, not as the canonical current execution brief for Codec Protocol v2 work.
+> For active doctrine and live execution, start from `docs/THESIS.md`,
+> `docs/engineering-discipline.md`, `docs/exec-plans/active/codec-v2-port.md`, and the
+> relevant file under `docs/agent-guides/`.
+
 Wittgenstein has two surfaces that share one architecture:
 
 - **TypeScript monorepo** (`packages/*`) — production harness with typed contracts,

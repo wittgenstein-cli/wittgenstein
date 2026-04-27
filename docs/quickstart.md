@@ -1,5 +1,12 @@
 # Quickstart
 
+> **Surface:** Demo-surface quickstart.
+> This page is optimized for getting a real file quickly from the repo's current
+> shipped and research/demo surfaces. It is not the canonical source for live doctrine,
+> migration sequencing, or contributor execution priorities. For those, read
+> `docs/THESIS.md`, `docs/hard-constraints.md`, and
+> `docs/exec-plans/active/codec-v2-port.md` first.
+
 Three paths to a real file in under a minute. None of them need an API key — they all run
 against the deterministic codec paths.
 
@@ -17,8 +24,9 @@ open /tmp/ecg.html     # macOS; or xdg-open on Linux
 ```
 
 What you get: `/tmp/ecg.json` (operator spec) + `/tmp/ecg.csv` (2,500 samples)
-+ `/tmp/ecg.png` (matplotlib chart) + `/tmp/ecg.html` (~117 KB interactive loupe dashboard,
-zero external dependencies).
+
+- `/tmp/ecg.png` (matplotlib chart) + `/tmp/ecg.html` (~117 KB interactive loupe dashboard,
+  zero external dependencies).
 
 The dashboard has sortable tables, summary stats, and dark/light mode. The whole thing is
 one HTML file with no CDN calls, no analytics, no JavaScript imports.
