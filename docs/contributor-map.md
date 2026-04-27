@@ -27,9 +27,18 @@ If you keep that frame, the repo reads cleanly.
 
 That order gets you from doctrine → review model → decisions → execution.
 
-One extra rule now applies across all doctrine-bearing work: the author does not count as the sole reviewer. If a PR changes doctrine, exec plans, shared contracts, or codec-shape assumptions, it needs a second independent review pass before merge.
+One extra rule now applies across all doctrine-bearing work: the author does not count as the sole reviewer. If a PR changes doctrine, exec plans, shared contracts, or codec-shape assumptions, it needs a second independent review pass before merge. (Locked in ADR-0013.)
 
 One more rule matters just as much: contributors are expected to bring agency, not just compliance. A plan, issue, or agent prompt defines the starting slice; it does not forbid you from correcting a stale assumption, widening to a tightly-coupled fix, or proposing a better engineering path when the evidence is strong.
+
+### Two decision lanes
+
+The repo runs on two separate decision lanes — pick the right one before writing doctrine:
+
+- **Engineering lane** — `Brief → RFC → ADR → exec-plan → code`. For codec / modality / protocol / runtime decisions. Canonical example: M1A landed via Briefs A+G+H → RFC-0001 → ADR-0008 → exec-plan §M1 → PR #68.
+- **Governance lane** — `(optional Governance Note) → ADR → inline summary`. For review process, archive policy, label taxonomy, agency boundaries, surface classification, research-surface taxonomy, agent-handoff conventions. See ADR-0014.
+
+If you want to append a new section to `docs/engineering-discipline.md`, `AGENTS.md`, `CONTRIBUTING.md`, `docs/labels.md`, or any operating doc — **open an ADR first**. Inline summaries are pointers to ratifying ADRs; they are not the doctrine themselves.
 
 ## 3. Repo shape
 

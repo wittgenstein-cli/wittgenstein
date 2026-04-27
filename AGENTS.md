@@ -47,6 +47,15 @@ Read [`docs/architecture.md`](docs/architecture.md) before changing structure.
 - Put future architectural choices in ADRs instead of burying them in PR text.
 - When in doubt, prefer traceability over convenience.
 
+## Two Decision Lanes
+
+The repo runs on **two separate decision lanes**. Pick the right one before you write doctrine.
+
+- **Engineering lane** — `Brief → RFC → ADR → exec-plan → code`. For codec / modality / protocol / runtime decisions. Canonical example: M1A landed via Brief A+G+H → RFC-0001 → ADR-0008 → exec-plan §M1 → PR #68.
+- **Governance lane** — `(optional Governance Note) → ADR → inline summary`. For review process, archive policy, label taxonomy, agency boundaries, surface classification, research-surface taxonomy, contributor-map structure, agent-handoff conventions. See ADR-0014.
+
+**Critical:** if you find yourself wanting to append a new section to `docs/engineering-discipline.md`, `CONTRIBUTING.md`, `AGENTS.md`, or any other operating doc — **stop and open an ADR first**. Inline summaries are pointers to ratifying ADRs, not the doctrine itself. This rule is locked in ADR-0013 and ADR-0014.
+
 ## Read Order
 
 <!-- prettier-ignore-start -->

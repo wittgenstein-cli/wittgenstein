@@ -84,8 +84,15 @@ In rough order of fan-out:
 - [`docs/codec-protocol.md`](docs/codec-protocol.md) — the `Codec<Req, Art>` contract
 - [`docs/contributor-map.md`](docs/contributor-map.md) — onboarding map (humans + agents)
 - [`docs/agent-guides/`](docs/agent-guides/) — per-port execution briefs (audio, sensor, image-to-audio)
-- [`docs/research/briefs/`](docs/research/briefs/) — research lineage A–H
+- [`docs/research/briefs/`](docs/research/briefs/) — research lineage A–J
 - [`docs/rfcs/`](docs/rfcs/) and [`docs/adrs/`](docs/adrs/) — engineering decisions
+
+## Two decision lanes (read before changing any operating doc)
+
+- **Engineering lane** — `Brief → RFC → ADR → exec-plan → code`. For codecs / modalities / protocols / runtime.
+- **Governance lane** — `(optional Governance Note) → ADR → inline summary`. For review process, archive policy, label taxonomy, agency boundaries, surface classification.
+
+If you want to append a new section to `docs/engineering-discipline.md`, `AGENTS.md`, `CONTRIBUTING.md`, or any operating doc — **open an ADR first**. The inline text is a pointer; the ADR is the doctrine. See ADR-0013 / ADR-0014.
 
 Running under **Claude Code** specifically? If a local
 `.claude/AGENT_PROMPT.md` overlay exists in your checkout, layer it on top —

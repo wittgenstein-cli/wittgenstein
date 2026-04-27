@@ -1,4 +1,18 @@
-* @max
+# CODEOWNERS — automatic review-request routing.
+#
+# This file is read by GitHub when a PR is opened. Every owner listed for a
+# touched path is auto-requested for review. ADR-0013 makes this load-bearing
+# for doctrine-bearing surfaces: changes to those surfaces MUST receive an
+# independent ratification pass, not just self-review.
+#
+# Maintainer pair (per ADR-0013): @Jah-yee + @Moapacha.
+# Per-modality team handles are aspirational; if the team is not yet provisioned
+# in the org, the catchall pair still receives the review request.
+
+# Default fallback — every PR auto-requests the maintainer pair.
+* @Jah-yee @Moapacha
+
+# ----- Code surfaces (per-modality, modality-team or fallback) -----
 
 /packages/core/src/runtime/ @wittgenstein-core
 /packages/core/src/llm/ @wittgenstein-core
@@ -12,8 +26,45 @@
 /packages/codec-audio/ @wittgenstein-audio
 /packages/codec-video/ @wittgenstein-video
 /packages/codec-sensor/ @wittgenstein-sensor
-/apps/site/ @max
+/apps/site/ @Jah-yee @Moapacha
 /docs/codecs/image.md @wittgenstein-image
 /docs/codecs/audio.md @wittgenstein-audio
 /docs/codecs/video.md @wittgenstein-video
 /docs/codecs/sensor.md @wittgenstein-sensor
+
+# ----- Doctrine surfaces (ADR-0013 §1) -----
+# These require independent ratification per ADR-0013. Always route to the
+# maintainer pair regardless of who else is in the file.
+
+/AGENTS.md @Jah-yee @Moapacha
+/PROMPT.md @Jah-yee @Moapacha
+/CONTRIBUTING.md @Jah-yee @Moapacha
+/README.md @Jah-yee @Moapacha
+/.github/CODEOWNERS @Jah-yee @Moapacha
+/.github/PULL_REQUEST_TEMPLATE.md @Jah-yee @Moapacha
+/.github/ISSUE_TEMPLATE/ @Jah-yee @Moapacha
+/.github/dependabot.yml @Jah-yee @Moapacha
+/.github/labeler.yml @Jah-yee @Moapacha
+/.github/workflows/ @Jah-yee @Moapacha
+
+/docs/THESIS.md @Jah-yee @Moapacha
+/docs/architecture.md @Jah-yee @Moapacha
+/docs/hard-constraints.md @Jah-yee @Moapacha
+/docs/engineering-discipline.md @Jah-yee @Moapacha
+/docs/codec-protocol.md @Jah-yee @Moapacha
+/docs/reproducibility.md @Jah-yee @Moapacha
+/docs/labels.md @Jah-yee @Moapacha
+/docs/archive-policy.md @Jah-yee @Moapacha
+/docs/contributor-map.md @Jah-yee @Moapacha
+/docs/glossary.md @Jah-yee @Moapacha
+/docs/tracks.md @Jah-yee @Moapacha
+/docs/index.md @Jah-yee @Moapacha
+
+/docs/adrs/ @Jah-yee @Moapacha
+/docs/rfcs/ @Jah-yee @Moapacha
+/docs/exec-plans/active/ @Jah-yee @Moapacha
+/docs/agent-guides/ @Jah-yee @Moapacha
+/docs/research/briefs/ @Jah-yee @Moapacha
+
+# Shared protocol contracts at the schema level
+/packages/schemas/src/codec/v2/ @Jah-yee @Moapacha

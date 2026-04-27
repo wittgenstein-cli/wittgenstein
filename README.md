@@ -239,7 +239,8 @@ cannot offer this; frozen VQ decoding does. See [`docs/reproducibility.md`](docs
 - [`docs/agent-guides/audio-port.md`](docs/agent-guides/audio-port.md) — audio line, M2 (route collapse, soft-deprecation)
 - [`docs/agent-guides/sensor-port.md`](docs/agent-guides/sensor-port.md) — sensor line, M3 (no-L4 confirmation case)
 - [`docs/rfcs/README.md`](docs/rfcs/README.md) — engineering decisions (RFCs 0001 codec v2, 0002 CLI, 0004 site, 0005 naming)
-- [`docs/adrs/README.md`](docs/adrs/README.md) — ratified decisions (ADRs 0006 layered IR, 0007 Path C rejected, 0008 codec v2, 0009 CLI v2, 0011 naming v2)
+- [`docs/adrs/README.md`](docs/adrs/README.md) — ratified decisions (engineering lane: ADRs 0006 layered IR, 0007 Path C rejected, 0008 codec v2, 0009 CLI v2, 0011 naming v2; governance lane: ADRs 0012 labels, 0013 independent ratification, 0014 governance lane itself)
+- [`docs/labels.md`](docs/labels.md) — canonical issue / PR label taxonomy (ratified by ADR-0012)
 
 ### For hackers
 
