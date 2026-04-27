@@ -81,7 +81,7 @@ SHA for the doctrine surface while M0/M1 work begins on top of it.
   tracks, agent-guides, RFCs, ADRs
 
 ### Maintenance
-- Repo migrated to `wittgenstein-cli/wittgenstein` org;
+- Repo migrated to `p-to-q/wittgenstein` org;
   changelog compare links updated accordingly
 - `.github/dependabot.yml` — github-actions updates grouped to reduce
   PR noise
@@ -208,7 +208,7 @@ video renderer remain intentionally incomplete.
 - Every run writes a manifest under `artifacts/runs/<id>/`
 - Shared contracts live in `@wittgenstein/schemas`; codec packages depend on schemas, not each other
 
-[Unreleased]: https://github.com/wittgenstein-cli/wittgenstein/compare/v0.2.0-alpha.1...HEAD
-[0.2.0-alpha.1]: https://github.com/wittgenstein-cli/wittgenstein/compare/v0.1.0-alpha.2...v0.2.0-alpha.1
-[0.1.0-alpha.2]: https://github.com/wittgenstein-cli/wittgenstein/compare/v0.1.0-alpha.1...v0.1.0-alpha.2
-[0.1.0-alpha.1]: https://github.com/wittgenstein-cli/wittgenstein/releases/tag/v0.1.0-alpha.1
+[Unreleased]: https://github.com/p-to-q/wittgenstein/compare/v0.2.0-alpha.1...HEAD
+[0.2.0-alpha.1]: https://github.com/p-to-q/wittgenstein/compare/v0.1.0-alpha.2...v0.2.0-alpha.1
+[0.1.0-alpha.2]: https://github.com/p-to-q/wittgenstein/compare/v0.1.0-alpha.1...v0.1.0-alpha.2
+[0.1.0-alpha.1]: https://github.com/p-to-q/wittgenstein/releases/tag/v0.1.0-alpha.1

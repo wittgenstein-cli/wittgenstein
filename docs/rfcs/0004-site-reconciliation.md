@@ -25,7 +25,7 @@ Before the site ships, execute two preparatory fixes the brief flagged inside th
 - **Fix the site↔THESIS noun mismatch**: `THESIS.md §Master` and `README.md:5` both say _"text-first LLMs"_ (locked 2026-04-24 via `docs/v02-alignment-review.md` §2.1); the live placeholder still says _"text-first models."_ The site is the one that must change at M4. No repo edits needed.
 - **Park Brief F's follow-up** (F.1) until the site has enough real content to drift from. The kill criterion for reopening F is specified below.
 
-Until the rewrite ships, the current placeholder is worse than nothing — it signals project abandonment to readers arriving from off-repo. Redirect the domain to `github.com/wittgenstein-cli/wittgenstein` in the interim.
+Until the rewrite ships, the current placeholder is worse than nothing — it signals project abandonment to readers arriving from off-repo. Redirect the domain to `github.com/p-to-q/wittgenstein` in the interim.
 
 ## Interface
 
@@ -53,7 +53,7 @@ Staged, with the interim redirect keeping the public URL useful at every step:
 
 - **M1 (now, this RFC's merge):** authority is transferred to Brief F's verdict. No site work yet.
 - **M2 (this week):** no repo-side noun edit needed — THESIS and README already agree on _"text-first LLMs"_ after `docs/v02-alignment-review.md` §2.1 landed. The site is the one that will need to match at M4.
-- **M3 (this week):** point `wittgenstein.wtf` at a 302 redirect to `github.com/wittgenstein-cli/wittgenstein`. A redirect is strictly better than a placeholder — readers land on a maintained surface instead of a dead one.
+- **M3 (this week):** point `wittgenstein.wtf` at a 302 redirect to `github.com/p-to-q/wittgenstein`. A redirect is strictly better than a placeholder — readers land on a maintained surface instead of a dead one.
 - **M4 (within 1 sprint):** ship the site described under `## Interface` as a separate PR in the site repo (or `docs/site/`, decision deferred). Removes the redirect.
 - **M5 (on every minor release):** add a "site diff" item to the release checklist — if `THESIS.md` or the showcase grid changed, regenerate and redeploy. Because the site is lifted verbatim, this is a build-and-push step, not a review step.
 
@@ -70,7 +70,7 @@ Kill date for any posture other than Posture B: if M3 has not shipped within 14 
 - **If the site drifts within 90 days of M4 landing** (i.e., any rendered line stops matching its source-of-truth file), the `data-source` build-time invariant failed; upgrade to a "site is generated from `docs/THESIS.md` on every push" CI step with no human in the loop.
 - **If M3 (redirect) has not shipped 14 days after this RFC merges,** posture collapses — the placeholder's signal cost is now large enough that RFC-0004 is stale; reopen Brief F with a shorter deadline.
 - **If M4 ships but Brief F's rows grow past five true drift cases in 90 days** (measured by monthly audit), the "lift verbatim" contract failed in practice; escalate to Posture B.2 — the site becomes a subdirectory of this repo (`docs/site/`) so drift is caught by existing PR review.
-- **If `wittgenstein.wtf` is subsumed by a different canonical URL** (e.g., a repo move to `wittgenstein-cli.org` or a vanity subdomain under an umbrella org), this RFC is superseded; open RFC-0004.b.
+- **If `wittgenstein.wtf` is subsumed by a different canonical URL** (e.g., a repo move to `p-to-q.org` or a vanity subdomain under an umbrella org), this RFC is superseded; open RFC-0004.b.
 
 ## Decision record
 

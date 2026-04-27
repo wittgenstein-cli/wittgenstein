@@ -204,10 +204,10 @@ dated PRs and are now either merged or in review:
 
 | Phase | PR                                                              | Outputs                                                                                                                 | Status |
 | ----- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------ |
-| P2a   | [#7](https://github.com/wittgenstein-cli/wittgenstein/pull/7)   | Briefs A (VQ/VLM lineage), B (Ilya↔LeCun, critical-path), C (horizon scan)                                              | merged |
-| P2b   | [#33](https://github.com/wittgenstein-cli/wittgenstein/pull/33) | Briefs D (CLI conventions), E (benchmarks v2), F (site reconciliation)                                                  | merged |
-| P3    | [#34](https://github.com/wittgenstein-cli/wittgenstein/pull/34) | RFCs 0001 (Codec Protocol v2), 0002 (CLI ergonomics), 0003 (Naming: Loom/Transducer/Score/Handoff), 0004 (Site)         | merged |
-| P4    | [#35](https://github.com/wittgenstein-cli/wittgenstein/pull/35) | ADRs 0006 (Layered epistemology), 0007 (Path-C rejected), 0008 (Codec v2 adoption), 0009 (CLI v2), 0010 (Naming locked) | merged |
+| P2a   | [#7](https://github.com/p-to-q/wittgenstein/pull/7)   | Briefs A (VQ/VLM lineage), B (Ilya↔LeCun, critical-path), C (horizon scan)                                              | merged |
+| P2b   | [#33](https://github.com/p-to-q/wittgenstein/pull/33) | Briefs D (CLI conventions), E (benchmarks v2), F (site reconciliation)                                                  | merged |
+| P3    | [#34](https://github.com/p-to-q/wittgenstein/pull/34) | RFCs 0001 (Codec Protocol v2), 0002 (CLI ergonomics), 0003 (Naming: Loom/Transducer/Score/Handoff), 0004 (Site)         | merged |
+| P4    | [#35](https://github.com/p-to-q/wittgenstein/pull/35) | ADRs 0006 (Layered epistemology), 0007 (Path-C rejected), 0008 (Codec v2 adoption), 0009 (CLI v2), 0010 (Naming locked) | merged |
 
 The critical-path verdict from Brief B — **Position (iii) Layered + (iv) Agnostic
 contract** — is now load-bearing via ADR-0006. Every downstream decision inherits from

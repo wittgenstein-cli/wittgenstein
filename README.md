@@ -4,8 +4,8 @@
 
 **The modality harness for text-first LLMs.**
 
-[![CI](https://img.shields.io/github/actions/workflow/status/wittgenstein-cli/wittgenstein/ci.yml?branch=main&label=CI)](./.github/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/wittgenstein-cli/wittgenstein?include_prereleases&label=release)](https://github.com/wittgenstein-cli/wittgenstein/releases)
+[![CI](https://img.shields.io/github/actions/workflow/status/p-to-q/wittgenstein/ci.yml?branch=main&label=CI)](./.github/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/p-to-q/wittgenstein?include_prereleases&label=release)](https://github.com/p-to-q/wittgenstein/releases)
 [![Status](https://img.shields.io/badge/status-early--stage-orange)](./docs/implementation-status.md)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20.19-brightgreen)](./.nvmrc)
@@ -279,7 +279,7 @@ Two surfaces, one contract. Adding a modality takes six steps on either side. Se
 ## Install
 
 ```bash
-git clone https://github.com/wittgenstein-cli/wittgenstein.git
+git clone https://github.com/p-to-q/wittgenstein.git
 cd wittgenstein
 
 # TypeScript harness
@@ -337,7 +337,7 @@ land softly. Three paths, in order of effort:
 1. **Try the 30-second quickstart above and tell us how it felt.** Broken step? Confusing
    docs? File a [`[q]` question](.github/ISSUE_TEMPLATE/question.md) or a docs PR — we
    treat "should have been documented" as the same priority as a bug.
-2. **Pick a `good first issue` on [GitHub Issues](https://github.com/wittgenstein-cli/wittgenstein/issues).**
+2. **Pick a `good first issue` on [GitHub Issues](https://github.com/p-to-q/wittgenstein/issues).**
    Labelled entries are scoped small. Docs, CI, and typings are all fair game.
 3. **Own a surface.** If you want to land the VQ decoder bridge, train a better adapter,
    or port a codec, say so in an issue and we'll pair. See
@@ -376,8 +376,8 @@ sources: [`docs/hard-constraints.md`](docs/hard-constraints.md).
 
 ## Contributors
 
-<a href="https://github.com/wittgenstein-cli/wittgenstein/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=wittgenstein-cli/wittgenstein" alt="Image with all contributors" />
+<a href="https://github.com/p-to-q/wittgenstein/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=p-to-q/wittgenstein" alt="Image with all contributors" />
 </a>
 
 ---
@@ -385,9 +385,9 @@ sources: [`docs/hard-constraints.md`](docs/hard-constraints.md).
 ## Star History
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=wittgenstein-cli/wittgenstein&type=Date&theme=dark" />
-  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=wittgenstein-cli/wittgenstein&type=Date" />
-  <img alt="Star History Chart" src="https://api.star-history.com/image?repos=wittgenstein-cli/wittgenstein&type=Date" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/image?repos=p-to-q/wittgenstein&type=Date&theme=dark" />
+  <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/image?repos=p-to-q/wittgenstein&type=Date" />
+  <img alt="Star History Chart" src="https://api.star-history.com/image?repos=p-to-q/wittgenstein&type=Date" />
 </picture>
 
 ---
