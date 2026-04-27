@@ -15,3 +15,15 @@ Architecture Decision Records capture decisions that should survive chat history
 - 0009 CLI ergonomics v2 (ratifies RFC-0002)
 - 0010 naming locked — Loom / Transducer / Score / Handoff (ratifies RFC-0003) — **superseded by 0011**
 - 0011 naming v2 locked — Harness / Codec / Spec / IR / Decoder / Adapter / Packaging (ratifies RFC-0005; supersedes 0010)
+- 0012 issue / PR label taxonomy (ratifies `docs/labels.md` introduced via PR #71)
+- 0013 independent ratification for doctrine-bearing PRs (ratifies the rule introduced via PR #75)
+- 0014 governance lane for meta-process doctrine — defines `(Governance Note →) ADR → inline summary` as the legal path for review / archive / labels / agency / surface-classification decisions
+
+## Lanes
+
+Two separate decision lanes feed into ADRs:
+
+- **Engineering lane** — `Brief → RFC → ADR → exec-plan → code`. Used for codec / modality / protocol / runtime decisions (e.g. ADR-0008 ratifying RFC-0001 from Briefs A+G+H).
+- **Governance lane** — `(optional) Governance Note → ADR → inline summary in the canonical operating doc`. Used for review / archive / labels / agency / research-surface / contributor-map decisions (e.g. ADRs 0012–0014). See ADR-0014 for the rules.
+
+Doctrine that lives inline in `docs/engineering-discipline.md` should be a summary of a ratifying ADR, not the doctrine itself.
