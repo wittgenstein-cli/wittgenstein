@@ -31,8 +31,17 @@ decoder-family decision before implementation starts.
 1. **Speech decoder family**
    - Wittgenstein names **Kokoro-82M-family decoder** as the default speech decoder family
      for v0.3 audio.
-   - **Piper-family** is the explicit fallback if Kokoro fails the pinned M2
-     reproducibility gate on the deterministic backend.
+   - **Piper-family** is the explicit fallback only when the Kokoro path is unavailable,
+     cannot initialize, or fails the pinned M2 reproducibility gate on the deterministic
+     CPU backend.
+   - A speech render that falls back from Kokoro to Piper must leave manifest evidence
+     of the concrete decoder used (`decoderId`) and determinism class; if the fallback
+     was triggered by a gate failure rather than a missing backend, the codec should
+     also preserve a structured partial/failure reason rather than silently presenting
+     the run as a normal Kokoro render.
+   - If neither Kokoro nor Piper is available, the codec returns a structured
+     partial/failure path. It does **not** silently fall back to host TTS (`say`,
+     platform speech services, or similar demo-only shortcuts).
 
 2. **Tokenizer boundary**
    - Wittgenstein does **not** add an audio tokenizer at the v0.3 harness boundary.
@@ -66,6 +75,7 @@ decoder-family decision before implementation starts.
 
 - `docs/codecs/audio.md` becomes canonical for:
   - Kokoro default / Piper fallback,
+  - explicit fallback trigger conditions and no-silent-host-fallback behavior,
   - no tokenizer at the harness boundary,
   - procedural soundscape/music through v0.3,
   - CPU byte-parity / GPU structural-parity for speech.

@@ -48,9 +48,15 @@ The LLM does not emit raw audio, MIDI bytes, or sample arrays. It emits a _plan_
 ### Speech route
 
 - `Kokoro-82M-family` decoder by default, with `Piper-family` as the fallback speech
-  path if the deterministic CPU gate fails on Kokoro.
+  path only when the Kokoro path is unavailable, cannot initialize, or fails the
+  pinned deterministic CPU gate.
 - Optional ambient layer mixed at a fixed gain.
 - Output: 16-bit mono WAV at 22050 Hz (configurable via the AudioPlan).
+
+Fallback to Piper must leave manifest evidence of the concrete decoder actually used
+(`decoderId`, `determinismClass`). If the Kokoro path was present but rejected by the
+CPU reproducibility gate, the codec should also preserve a structured partial/failure
+reason rather than silently presenting the run as a normal Kokoro render.
 
 ### Soundscape route
 
@@ -99,6 +105,10 @@ waveform-direct.
 
 - The LLM emits an AudioPlan with an out-of-range route — caught by zod parse, surfaced as a structured error.
 - The TTS engine is unavailable on the host — codec writes `quality.partial: { reason: "tts_engine_missing" }` and a manifest row noting the failure; no silent fallback.
+- The Kokoro path is present but fails the pinned deterministic CPU gate — codec may
+  fall back to Piper, but must record the fallback in manifest evidence and preserve a
+  structured partial/failure reason if the render no longer satisfies the Kokoro path's
+  byte-parity contract.
 - The music plan specifies a key/tempo combination the synth cannot render — error surfaced to the user with the offending plan field; no down-tuning happens silently.
 - An ambient layer file is missing — fall back to silence with a structured warning, never to a different ambient.
 

@@ -123,6 +123,10 @@ If any answer is no, the gate is not met.
 ## 8. Failure modes you will hit
 
 - **TTS engine not installed on CI** — the `quality.partial: { reason: "tts_engine_missing" }` invariant must trigger; the build must not fail silently. Add a CI check that asserts the partial reason is recorded for that case.
+- **Kokoro is installed but fails the pinned deterministic CPU gate** — Piper may take
+  over as the ratified fallback, but the manifest must show the concrete `decoderId`
+  and determinism class actually used, and the run must not masquerade as a clean
+  Kokoro byte-parity render.
 - **AudioPlan zod parse fails on a real LLM output** — surface the structured error to the user; the codec must not "fix up" the plan silently. If a recurring parse failure appears, the right move is to tighten the prompt preamble, not to loosen the schema.
 - **Soundscape SHA-256 drifts after a refactor** — the synthesis runtime is deterministic by contract. Drift means a real bug; bisect.
 - **`AudioRequest.route` removal breaks a downstream user** — pause M2's hard-warn on that field; document the migration in `docs/agent-guides/`. Do not revert the codec collapse.
