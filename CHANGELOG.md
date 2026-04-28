@@ -6,6 +6,14 @@ versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Repaired frontend build drift found during the final pre-M2 check:
+  - `apps/site` now keeps React and `react-dom` on the same React 18 line while
+    using Tailwind v4's `@tailwindcss/postcss` plugin.
+  - `apps/wittgenstein-kimi` stays on its Tailwind v3 / Vite 7-compatible
+    stack instead of half-migrating to Tailwind v4 / Vite 8.
+
 ## [0.2.0-alpha.2] — 2026-04-29 — M2 preflight closure
 
 This prerelease marks the transition from the v0.2 doctrine lock into the
