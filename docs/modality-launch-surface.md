@@ -2,12 +2,12 @@
 
 This is the lightweight contract for the four launch-critical user paths: `image`, `tts`, `audio`, and `sensor`.
 
-| Path | CLI | Structured IR | Artifact | Minimal benchmark case |
-| --- | --- | --- | --- | --- |
-| Image | `wittgenstein image "..." --out out.png` | `ImageSceneSpec` | PNG | `image-editorial` |
-| TTS | `wittgenstein tts "..." --ambient rain --out out.wav` | `AudioPlan` with `route = speech` | WAV | `tts-launch` |
-| Audio | `wittgenstein audio "..." --route music --out out.wav` | `AudioPlan` | WAV | `audio-music` |
-| Sensor | `wittgenstein sensor "..." --out out.json` | `SensorSignalSpec` algorithm/operator plan | JSON + CSV + HTML | `sensor-ecg` |
+| Path   | CLI                                                   | Structured IR                              | Artifact          | Minimal benchmark case |
+| ------ | ----------------------------------------------------- | ------------------------------------------ | ----------------- | ---------------------- |
+| Image  | `wittgenstein image "..." --out out.png`              | `ImageSceneSpec`                           | PNG               | `image-editorial`      |
+| TTS    | `wittgenstein tts "..." --ambient rain --out out.wav` | `AudioPlan` with `route = speech`          | WAV               | `tts-launch`           |
+| Audio  | `wittgenstein audio "..." --out out.wav`              | `AudioPlan`                                | WAV               | `audio-music`          |
+| Sensor | `wittgenstein sensor "..." --out out.json`            | `SensorSignalSpec` algorithm/operator plan | JSON + CSV + HTML | `sensor-ecg`           |
 
 ## Unified Shape
 
@@ -22,5 +22,6 @@ Each path should stay aligned on five things:
 ## Notes
 
 - `tts` is a convenience command, not a new modality. It rides the audio codec's speech route.
+- `audio --route ...` remains available only as a transitional compatibility hint during the one-minor-version deprecation window.
 - `sensor` should prefer algorithm specs over raw point-by-point generation.
 - `image` keeps the stricter thesis path and should not pick up painter-style fallbacks in the main harness.

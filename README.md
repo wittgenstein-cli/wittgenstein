@@ -192,7 +192,7 @@ python3 -m polyglot.cli sensor "ECG 72 bpm resting" --dry-run  --out ecg.json
 
 # TypeScript surface — typed harness, manifest spine, CI-backed
 pnpm --filter @wittgenstein/cli exec wittgenstein sensor  "stable ECG" --dry-run --out artifacts/demo/ecg.json
-pnpm --filter @wittgenstein/cli exec wittgenstein audio   "soft launch music" --route music --dry-run
+pnpm --filter @wittgenstein/cli exec wittgenstein audio   "soft launch music" --dry-run
 pnpm --filter @wittgenstein/cli exec wittgenstein doctor
 ```
 

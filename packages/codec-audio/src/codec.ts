@@ -54,6 +54,8 @@ interface AudioPlanPayload {
 }
 
 const standardSchema = toStandardSchema(AudioRequestSchema);
+const AUDIO_ROUTE_DEPRECATION_WARNING =
+  "`AudioRequest.route` is deprecated and will be removed after one minor version. Audio routing now lives inside `AudioCodec.route()`; keep `--route` only for compatibility while migrating callers to modality-level intent.";
 
 function injectSchemaPreamble(prompt: string, schemaPreamble: string): string {
   return [
@@ -146,6 +148,21 @@ function forceRequestedRoute(plan: AudioPlan, req: AudioRequest): AudioPlan {
   return { ...plan, route: req.route };
 }
 
+function emitRouteDeprecationWarning(req: AudioRequest, ctx: codecV2.HarnessCtx): void {
+  if (!req.route) {
+    return;
+  }
+  ctx.logger.warn(AUDIO_ROUTE_DEPRECATION_WARNING);
+  ctx.sidecar.warnings.push({
+    code: "audio/route-deprecated",
+    message: AUDIO_ROUTE_DEPRECATION_WARNING,
+    detail: {
+      requestedRoute: req.route,
+    },
+    phase: codecV2.CodecPhase.Expand,
+  });
+}
+
 function isAmbientCategory(value: unknown): value is AudioPlan["ambient"]["category"] {
   return (
     value === "auto" ||
@@ -172,6 +189,7 @@ export class AudioCodec extends codecV2.BaseCodec<AudioRequest, AudioArtifact> {
   protected override async expand(req: AudioRequest, ctx: codecV2.HarnessCtx): Promise<codecV2.IR> {
     const services = asServices(ctx.services);
     const promptExpanded = injectSchemaPreamble(req.prompt, audioSchemaPreamble(req));
+    emitRouteDeprecationWarning(req, ctx);
     await services.telemetry?.writeText("llm-input.txt", promptExpanded);
 
     if (services.dryRun) {

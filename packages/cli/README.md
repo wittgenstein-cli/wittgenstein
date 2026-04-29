@@ -25,7 +25,7 @@ npx @wittgenstein/cli doctor
 ```bash
 wittgenstein image  "editorial product shot" --out out.png
 wittgenstein tts    "launch voiceover" --ambient rain --out out.wav
-wittgenstein audio  "ambient launch soundtrack" --route music --out out.wav
+wittgenstein audio  "ambient launch soundtrack" --out out.wav
 wittgenstein sensor "stable ECG trace" --out out.json
 wittgenstein video  "architecture teaser" --out out.mp4
 wittgenstein doctor
@@ -42,3 +42,4 @@ pnpm --filter @wittgenstein/cli run smoke
 - Runs are traceable under `artifacts/runs/`.
 - Relative `--out` paths resolve from the workspace root.
 - `tts` is a convenience alias for the `audio` codec's `speech` route.
+- `--route` remains available for one minor version as a deprecated compatibility hint.
