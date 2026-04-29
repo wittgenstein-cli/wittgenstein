@@ -19,6 +19,7 @@ describe("@wittgenstein/codec-audio", () => {
 
   it("produces a wav artifact for speech with ambient overlay", async () => {
     const dir = await mkdtemp(join(tmpdir(), "witt-audio-"));
+    const warnings: string[] = [];
     const art = await audioCodec.produce(
       {
         modality: "audio",
@@ -32,7 +33,14 @@ describe("@wittgenstein/codec-audio", () => {
         runDir: dir,
         seed: 7,
         outPath: join(dir, "speech.wav"),
-        logger: console,
+        logger: {
+          debug: () => {},
+          info: () => {},
+          warn: (message) => {
+            warnings.push(message);
+          },
+          error: () => {},
+        },
         clock: {
           now: () => Date.now(),
           iso: () => new Date().toISOString(),
@@ -58,12 +66,21 @@ describe("@wittgenstein/codec-audio", () => {
       determinismClass: "byte-parity",
       decoderId: "procedural-audio-runtime",
     });
+    expect(art.metadata.warnings).toEqual([
+      expect.objectContaining({
+        code: "audio/route-deprecated",
+      }),
+    ]);
+    expect(warnings).toEqual([
+      "`AudioRequest.route` is deprecated and will be removed after one minor version. Audio routing now lives inside `AudioCodec.route()`; keep `--route` only for compatibility while migrating callers to modality-level intent.",
+    ]);
     expect(art.metadata.artifactSha256).toHaveLength(64);
     expect((await stat(art.outPath)).size).toBeGreaterThan(44);
   });
 
   it("keeps request-side route hints in codec-owned routing", async () => {
     const dir = await mkdtemp(join(tmpdir(), "witt-audio-"));
+    const warnings: string[] = [];
     const art = await audioCodec.produce(
       {
         modality: "audio",
@@ -76,7 +93,14 @@ describe("@wittgenstein/codec-audio", () => {
         seed: 7,
         parentRunId: null,
         outPath: join(dir, "music.wav"),
-        logger: console,
+        logger: {
+          debug: () => {},
+          info: () => {},
+          warn: (message) => {
+            warnings.push(message);
+          },
+          error: () => {},
+        },
         clock: {
           now: () => Date.now(),
           iso: () => new Date().toISOString(),
@@ -92,6 +116,96 @@ describe("@wittgenstein/codec-audio", () => {
     );
 
     expect(art.metadata.route).toBe("music");
+    expect(art.metadata.warnings).toEqual([
+      expect.objectContaining({
+        code: "audio/route-deprecated",
+      }),
+    ]);
+    expect(warnings).toEqual([
+      "`AudioRequest.route` is deprecated and will be removed after one minor version. Audio routing now lives inside `AudioCodec.route()`; keep `--route` only for compatibility while migrating callers to modality-level intent.",
+    ]);
     expect((await stat(art.outPath)).size).toBeGreaterThan(44);
+  });
+
+  it("routes soundtrack-style dry-run prompts to music without a deprecation warning", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "witt-audio-"));
+    const warnings: string[] = [];
+    const art = await audioCodec.produce(
+      {
+        modality: "audio",
+        prompt: "A lightweight launch soundtrack with a slow synthetic pulse.",
+      },
+      {
+        runId: "test-run",
+        parentRunId: null,
+        runDir: dir,
+        seed: 7,
+        outPath: join(dir, "intent-music.wav"),
+        logger: {
+          debug: () => {},
+          info: () => {},
+          warn: (message) => {
+            warnings.push(message);
+          },
+          error: () => {},
+        },
+        clock: {
+          now: () => Date.now(),
+          iso: () => new Date().toISOString(),
+        },
+        sidecar: codecV2.createRunSidecar(),
+        services: {
+          dryRun: true,
+        },
+        fork: () => {
+          throw new Error("not used in this test");
+        },
+      },
+    );
+
+    expect(art.metadata.route).toBe("music");
+    expect(art.metadata.warnings).toEqual([]);
+    expect(warnings).toEqual([]);
+  });
+
+  it("routes ambient no-route dry-run prompts to soundscape without a deprecation warning", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "witt-audio-"));
+    const warnings: string[] = [];
+    const art = await audioCodec.produce(
+      {
+        modality: "audio",
+        prompt: "Forest rain ambience with a soft morning texture.",
+      },
+      {
+        runId: "test-run",
+        parentRunId: null,
+        runDir: dir,
+        seed: 7,
+        outPath: join(dir, "intent-soundscape.wav"),
+        logger: {
+          debug: () => {},
+          info: () => {},
+          warn: (message) => {
+            warnings.push(message);
+          },
+          error: () => {},
+        },
+        clock: {
+          now: () => Date.now(),
+          iso: () => new Date().toISOString(),
+        },
+        sidecar: codecV2.createRunSidecar(),
+        services: {
+          dryRun: true,
+        },
+        fork: () => {
+          throw new Error("not used in this test");
+        },
+      },
+    );
+
+    expect(art.metadata.route).toBe("soundscape");
+    expect(art.metadata.warnings).toEqual([]);
+    expect(warnings).toEqual([]);
   });
 });

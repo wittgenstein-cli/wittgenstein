@@ -59,6 +59,7 @@ Reference: `docs/architecture.md`
 10. Hash artifact and write `manifest.json`
 
 References:
+
 - `packages/core/src/runtime/harness.ts`
 - `packages/core/src/runtime/manifest.ts`
 - `packages/core/src/runtime/telemetry.ts`
@@ -72,6 +73,7 @@ References:
 - Uses JSON response mode for structured output (`response_format: json_object`)
 
 References:
+
 - `packages/core/src/llm/openai-compatible.ts`
 - `packages/core/src/llm/anthropic.ts`
 
@@ -84,6 +86,7 @@ Config resolution order:
 3. env override (`WITTGENSTEIN_LLM_PROVIDER`, etc.)
 
 References:
+
 - `packages/schemas/src/config.ts`
 - `packages/core/src/runtime/config.ts`
 
@@ -94,6 +97,7 @@ References:
 - Manifest schema is strongly typed (`RunManifestSchema`)
 
 References:
+
 - `packages/core/src/runtime/budget.ts`
 - `packages/core/src/runtime/errors.ts`
 - `packages/schemas/src/manifest.ts`
@@ -147,6 +151,7 @@ Reference: `packages/schemas/src/codec.ts`
 - `decodeLatentsToRaster` (frozen neural decoder only; throws `NotImplementedError` until wired)
 
 References:
+
 - `packages/codec-image/src/schema.ts`
 - `packages/codec-image/src/pipeline/index.ts`
 - `packages/codec-image/src/pipeline/adapter.ts`
@@ -162,6 +167,7 @@ References:
 - Training/serve recipes under `research/chat2svg-lora/`
 
 References:
+
 - `packages/codec-svg/src/codec.ts`
 - `packages/core/src/runtime/svg-generation.ts`
 - `research/chat2svg-lora/README.md`
@@ -179,6 +185,7 @@ References:
 - all three route renderers currently throw `NotImplementedError`
 
 References:
+
 - `packages/codec-audio/src/schema.ts`
 - `packages/codec-audio/src/codec.ts`
 - `packages/codec-audio/src/routes/*/index.ts`
@@ -195,6 +202,7 @@ References:
 - actual HyperFrames render execution path
 
 References:
+
 - `packages/codec-video/src/schema.ts`
 - `packages/codec-video/src/codec.ts`
 - `packages/codec-video/src/hyperframes-wrapper.ts`
@@ -211,6 +219,7 @@ References:
 - concrete signal renderers
 
 References:
+
 - `packages/codec-sensor/src/schema.ts`
 - `packages/codec-sensor/src/codec.ts`
 - `packages/codec-sensor/src/signals/*.ts`
@@ -235,6 +244,7 @@ All codec commands share:
 - JSON outcome print (`ok`, `runId`, `runDir`, `artifactPath`, `error`)
 
 References:
+
 - `packages/cli/src/index.ts`
 - `packages/cli/src/commands/shared.ts`
 - `packages/cli/src/commands/*.ts`
@@ -277,6 +287,7 @@ Unit tests exist for:
 Note: running `pnpm -r test` currently fails in this environment because some workspaces have missing local `node_modules`/`vitest` binaries (`spawn ENOENT`).
 
 References:
+
 - `packages/core/test/harness.test.ts`
 - `packages/cli/test/index.test.ts`
 - `packages/schemas/test/contract.test.ts`
@@ -333,8 +344,8 @@ pnpm --filter @wittgenstein/cli exec wittgenstein doctor
 # 3) dry-run image (tests manifest spine without API)
 pnpm --filter @wittgenstein/cli exec wittgenstein image "minimal poster about modality harness" --dry-run
 
-# 4) dry-run audio route
-pnpm --filter @wittgenstein/cli exec wittgenstein audio "calm narrative intro" --route speech --dry-run
+# 4) dry-run audio
+pnpm --filter @wittgenstein/cli exec wittgenstein audio "calm narrative intro" --dry-run
 
 # 5) start presentation page
 pnpm dev:presentation

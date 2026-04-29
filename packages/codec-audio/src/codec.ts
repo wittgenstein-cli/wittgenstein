@@ -54,6 +54,8 @@ interface AudioPlanPayload {
 }
 
 const standardSchema = toStandardSchema(AudioRequestSchema);
+const AUDIO_ROUTE_DEPRECATION_WARNING =
+  "`AudioRequest.route` is deprecated and will be removed after one minor version. Audio routing now lives inside `AudioCodec.route()`; keep `--route` only for compatibility while migrating callers to modality-level intent.";
 
 function injectSchemaPreamble(prompt: string, schemaPreamble: string): string {
   return [
@@ -121,7 +123,33 @@ function asAudioPlanPayload(ir: codecV2.IR): AudioPlanPayload {
 }
 
 function routeFromRequest(req: AudioRequest): AudioRoute {
-  return req.route ?? "speech";
+  if (req.route) {
+    return req.route;
+  }
+
+  return inferIntentRoute(req.prompt);
+}
+
+function inferIntentRoute(prompt: string): AudioRoute {
+  const normalized = prompt.toLowerCase();
+
+  if (
+    /\b(music|soundtrack|score|melody|song|cue|theme|pulse|beat|chord|motif)\b/.test(
+      normalized,
+    )
+  ) {
+    return "music";
+  }
+
+  if (
+    /\b(soundscape|ambient|ambience|rain|wind|forest|city|ocean|waves|birds|noise|texture)\b/.test(
+      normalized,
+    )
+  ) {
+    return "soundscape";
+  }
+
+  return "speech";
 }
 
 function createDryRunPlan(req: AudioRequest): AudioPlan {
@@ -146,6 +174,21 @@ function forceRequestedRoute(plan: AudioPlan, req: AudioRequest): AudioPlan {
   return { ...plan, route: req.route };
 }
 
+function emitRouteDeprecationWarning(req: AudioRequest, ctx: codecV2.HarnessCtx): void {
+  if (!req.route) {
+    return;
+  }
+  ctx.logger.warn(AUDIO_ROUTE_DEPRECATION_WARNING);
+  ctx.sidecar.warnings.push({
+    code: "audio/route-deprecated",
+    message: AUDIO_ROUTE_DEPRECATION_WARNING,
+    detail: {
+      requestedRoute: req.route,
+    },
+    phase: codecV2.CodecPhase.Expand,
+  });
+}
+
 function isAmbientCategory(value: unknown): value is AudioPlan["ambient"]["category"] {
   return (
     value === "auto" ||
@@ -165,13 +208,14 @@ export class AudioCodec extends codecV2.BaseCodec<AudioRequest, AudioArtifact> {
   readonly schema = standardSchema;
   readonly routes: ReadonlyArray<codecV2.Route<AudioRequest>> = [
     { id: "speech", match: (req) => routeFromRequest(req) === "speech" },
-    { id: "soundscape", match: (req) => req.route === "soundscape" },
-    { id: "music", match: (req) => req.route === "music" },
+    { id: "soundscape", match: (req) => routeFromRequest(req) === "soundscape" },
+    { id: "music", match: (req) => routeFromRequest(req) === "music" },
   ];
 
   protected override async expand(req: AudioRequest, ctx: codecV2.HarnessCtx): Promise<codecV2.IR> {
     const services = asServices(ctx.services);
     const promptExpanded = injectSchemaPreamble(req.prompt, audioSchemaPreamble(req));
+    emitRouteDeprecationWarning(req, ctx);
     await services.telemetry?.writeText("llm-input.txt", promptExpanded);
 
     if (services.dryRun) {

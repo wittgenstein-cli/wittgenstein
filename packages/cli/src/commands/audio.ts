@@ -6,7 +6,7 @@ export function registerAudioCommand(program: Command): void {
     .command("audio")
     .argument("<prompt>", "user prompt")
     .description("Run the audio codec")
-    .option("--route <route>", "speech | soundscape | music")
+    .option("--route <route>", "Deprecated compatibility hint: speech | soundscape | music")
     .option("--ambient <ambient>", "auto | silence | rain | wind | city | forest | electronic")
     .option("--duration-sec <number>", "requested duration in seconds")
     .option("--out <path>", "output path")
@@ -30,9 +30,7 @@ export function registerAudioCommand(program: Command): void {
             seed: parseOptionalSeed(options.seed),
             route: options.route,
             ambient: options.ambient,
-            durationSec: options.durationSec
-              ? Number.parseFloat(options.durationSec)
-              : undefined,
+            durationSec: options.durationSec ? Number.parseFloat(options.durationSec) : undefined,
           },
           "wittgenstein audio",
           process.argv.slice(2),

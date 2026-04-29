@@ -27,9 +27,9 @@ an intermediate EnCodec / DAC / Mimi layer.
 ## CLI Surface
 
 - `wittgenstein tts "launch line" --ambient rain --out out.wav`
-- `wittgenstein audio "ambient score" --route music --out out.wav`
+- `wittgenstein audio "short audio artifact" --out out.wav`
 
-The legacy `--route` flag enters soft-warn deprecation at M2 of the codec-v2 port (see `docs/exec-plans/active/codec-v2-port.md`). Routing moves inside the codec; the user-facing flag survives one minor version for compatibility.
+The legacy `--route` flag enters soft-warn deprecation at M2 of the codec-v2 port (see `docs/exec-plans/active/codec-v2-port.md`). Routing moves inside the codec; the user-facing flag survives one minor version as a compatibility-only hint while callers migrate to modality-level intent.
 
 ## What the LLM Emits — `AudioPlan`
 
